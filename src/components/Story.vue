@@ -14,16 +14,13 @@
 import anime from "animejs/lib/anime.es.js";
 import Hammer from "hammerjs";
 import VNode from "./VNode";
+import { defineComponent, isVue2 } from "vue-demi";
 
 const SLIDE_DURATION = 2000;
 
-export default {
+export default defineComponent({
   components: { VNode },
-  name: "Story",
-  props: {
-    //slides: Array,
-  },
-
+  name: "VueInstaStory",
   data() {
     const timeline = anime.timeline({
       autoplay: false,
@@ -39,7 +36,10 @@ export default {
   },
   computed: {
     slides() {
-      return this.$slots.default;
+      if (isVue2) return this.$slots.default;
+      // vue 3 is weird
+      const [{ children }] = this.$slots.default();
+      return children;
     },
     current() {
       return this.slides[this.currentSlideIndex];
@@ -83,8 +83,6 @@ export default {
     },
   },
   mounted() {
-    // eslint-disable-next-line no-console
-    console.log(this.$slots.default);
     let $timeline = this.$el.getElementsByClassName("timeline")[0];
 
     // Add progress bars to the timeline animation group
@@ -145,11 +143,11 @@ export default {
       }
     });
   },
-};
+});
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
+<style lang="css" scoped>
 .story {
   float: left;
   position: relative;
