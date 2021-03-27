@@ -7,16 +7,11 @@
     "build:vue": "vue-cli-service build",
     "build": "rollup -c rollup.config.js"
   },
-  "main": "dist/index.cjs.min.js",
-  "module": "dist/index.esm.min.js",
-  "unpkg": "dist/index.umd.min.js",
-  "jsdelivr": "dist/index.umd.min.js",
+  "main": "src/components/Story.vue",
   "dependencies": {
     "animejs": "^3.2.1",
     "core-js": "^3.6.5",
-    "hammerjs": "^2.0.8",
-    "vue": "^3.0.0",
-    "vue-demi": "^0.7.4"
+    "hammerjs": "^2.0.8"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "~4.5.0",

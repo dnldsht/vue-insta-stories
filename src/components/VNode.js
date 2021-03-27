@@ -1,8 +1,7 @@
-import { defineComponent, isVue2 } from 'vue-demi'
-export default defineComponent({
+export default {
   functional: true,
-  props: { node: Object },
+  props: ['node'],
   render: ({ $props }, { props }) => {
-    return (isVue2 ? props : $props).node
+    return (props || $props).node
   },
-})
+}

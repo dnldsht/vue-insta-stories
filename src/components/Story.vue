@@ -14,11 +14,10 @@
 import anime from "animejs/lib/anime.es.js";
 import Hammer from "hammerjs";
 import VNode from "./VNode";
-import { defineComponent, isVue2 } from "vue-demi";
 
 const SLIDE_DURATION = 2000;
 
-export default defineComponent({
+export default {
   components: { VNode },
   name: "VueInstaStory",
   data() {
@@ -36,12 +35,18 @@ export default defineComponent({
   },
   computed: {
     slides() {
-      if (isVue2) return this.$slots.default;
-      // vue 3 is weird
-      const [{ children }] = this.$slots.default();
-      return children;
+      const d = this.$slots.default;
+      if (typeof d == "function") {
+        // vue 3 is weird
+        const [{ children }] = d();
+        console.log(children);
+        return children;
+      }
+
+      return d;
     },
     current() {
+      console.log(this.slides[this.currentSlideIndex]);
       return this.slides[this.currentSlideIndex];
     },
   },
@@ -82,16 +87,18 @@ export default defineComponent({
       this.$emit("PREVIOUS_STORY");
     },
   },
-  mounted() {
+  async mounted() {
+    //if (1 === 1) return true;
+    //await this.$nextTick();
     let $timeline = this.$el.getElementsByClassName("timeline")[0];
+    //console.log($timeline);
 
     // Add progress bars to the timeline animation group
     this.slides.forEach((color, index) => {
+      const slices = $timeline.getElementsByClassName("slice");
+      //console.log(slices);
       this.timeline.add({
-        targets: $timeline
-          .getElementsByClassName("slice")
-          // eslint-disable-next-line no-unexpected-multiline
-          [index].getElementsByClassName("progress"),
+        targets: slices[index].getElementsByClassName("progress"),
         width: "100%",
         changeBegin: () => {
           // Update the Vue componenet state when progress bar begins to play
@@ -143,7 +150,7 @@ export default defineComponent({
       }
     });
   },
-});
+};
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
