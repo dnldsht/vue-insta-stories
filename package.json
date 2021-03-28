@@ -1,20 +1,21 @@
 {
   "name": "vue-insta-stories",
-  "version": "0.1.0",
+  "version": "3.0.0",
   "description": "Vue component for Instagram stories",
   "keywords": [
     "vue",
     "instagram",
     "stories"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UnevenSoftware/vue-insta-stories.git"
+  },
   "license": "MIT",
   "module": "dist/vue-insta-stories.esm.js",
   "main": "dist/vue-insta-stories.cjs.js",
   "unpkg": "dist/vue-insta-stories.global.js",
   "author": "kayue, dnldsht, gilnd",
-  "browser": {
-    "./sfc": "src/Story.vue"
-  },
   "files": [
     "dist/",
     "src/Story.vue"
@@ -26,8 +27,7 @@
   },
   "dependencies": {
     "animejs": "^3.2.1",
-    "hammerjs": "^2.0.8",
-    "postcss": "^8.2.8"
+    "hammerjs": "^2.0.8"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^11.2.1",
@@ -35,6 +35,7 @@
     "rollup": "^2.43.0",
     "rollup-plugin-postcss": "^4.0.0",
     "rollup-plugin-vue": "^6.0.0",
-    "rollup-plugin-vue2": "^0.8.1"
+    "rollup-plugin-vue2": "^0.8.1",
+    "postcss": "^8.2.8"
   }
 }
