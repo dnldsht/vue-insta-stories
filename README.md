@@ -1,19 +1,17 @@
-# vue-insta-stories
+<h1 align="center">vue-insta-stories</h1>
 
-## Project setup
-```
-yarn install
-```
+<p align="center">
+  Vue component for Instagram stories
+</p>
 
-### Compiles and hot-reloads for development
-```
-yarn serve
-```
+## Credits
+This project took a lot of inspiration from @kayue [project](https://github.com/kayue/vue-story-example)
 
-### Compiles and minifies for production
-```
-yarn build
-```
+## Features
+- Timer and timeline on the top
+- Hold to pause current slide
+- Tap to navigate between slides
+- Swipe to navigate between stories
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## License
+MIT - Copyright (c) 2021 Uneven Software

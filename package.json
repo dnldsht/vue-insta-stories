@@ -1,10 +1,17 @@
 {
   "name": "vue-insta-stories",
   "version": "0.1.0",
-  "private": true,
+  "description": "Vue component for Instagram stories",
+  "keywords": [
+    "vue",
+    "instagram",
+    "stories"
+  ],
+  "license": "MIT",
   "module": "dist/vue-insta-stories.esm.js",
   "main": "dist/vue-insta-stories.cjs.js",
   "unpkg": "dist/vue-insta-stories.global.js",
+  "author": "kayue, dnldsht, gilnd",
   "browser": {
     "./sfc": "src/Story.vue"
   },
@@ -14,7 +21,8 @@
   ],
   "scripts": {
     "dev": "cd examples/vite && vite",
-    "build": "rollup -c rollup.config.js"
+    "build": "rollup -c rollup.config.js",
+    "build:vue2": "VUE2=true rollup -c rollup.config.js"
   },
   "dependencies": {
     "animejs": "^3.2.1",
