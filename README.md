@@ -4,6 +4,11 @@
   Vue component for Instagram stories
 </p>
 
+<br/>
+<img height="600" src="https://i.imgur.com/gyX0XFw.png"/>
+<br/>
+<br/>
+
 ## Install
 ```bash
 yarn add vue-insta-stories 
@@ -29,6 +34,7 @@ export default {
   components: { Story },
 };
 </script>
+
 <style scoped>
 .slide {
   /* Take the rest of the page */

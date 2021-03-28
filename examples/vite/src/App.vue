@@ -1,6 +1,8 @@
 <template>
   <div id="app">
+    <!-- ciao -->
     <Story>
+      <intro-slide class="slide"></intro-slide>
       <div
         class="slide"
         v-for="i in 10"
@@ -16,9 +18,11 @@
 <script>
 // import Story from "vue-insta-stories/src/components/Story";
 import Story from "../../../src/Story.vue";
+import IntroSlide from "./components/IntroSlide.vue";
+
 export default {
   name: "App",
-  components: { Story },
+  components: { Story, IntroSlide },
 
   data: () => ({
     colors: ["#DAF7A6", "#FFC300", "#FF5733"],
@@ -31,8 +35,8 @@ export default {
   flex-grow: 1;
 
   /* Center align */
-  display: flex;
+  /* display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: center; */
 }
 </style>

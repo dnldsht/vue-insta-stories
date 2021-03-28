@@ -36,10 +36,21 @@ export default {
   computed: {
     slides() {
       const d = this.$slots.default;
+      console.log(d());
       if (typeof d == "function") {
         // vue 3 is weird
-        const [{ children }] = d();
-        return children;
+
+        return (
+          d()
+            .filter((n) => {
+              if (n.type == "Symbol(Comment)") return false;
+              console.log(n.type);
+              return true;
+            })
+            // .filter((n) => !n.__v_skip)
+            .map((n) => (n.children instanceof Array ? n.children : [n]))
+            .reduce((nodes, n) => [...nodes, ...n], [])
+        );
       }
 
       return d;
