@@ -1,100 +1,50 @@
-import { terser } from "rollup-plugin-terser";
 import vue from 'rollup-plugin-vue'
-import css from 'rollup-plugin-css-only'
+import PostCSS from 'rollup-plugin-postcss'
+import NodeResolve from '@rollup/plugin-node-resolve'
 
-/** @type {import('rollup').RollupOptions} */
-const options = [
+import pkg from './package.json'
+
+const external = ['animejs', 'hammerjs', 'vue']
+
+const plugins = [
+
+  NodeResolve(),
+  vue({
+    target: 'browser',
+    cssModulesOptions: {
+      generateScopedName: '[local]___[hash:base64:5]',
+    },
+  }),
+  PostCSS(),
+]
+
+export default [
   {
-    input: "src/index.js",
-    plugins: [vue({ css: false }), css()],
-    external: ["vue-demi", "animejs", "hammerjs"],
+    plugins,
+    external,
+    input: 'src/Story.vue',
     output: [
       {
-        file: "dist/index.esm.js",
-        format: "es",
-        sourcemap: true
-      },
-      {
-        file: "dist/index.esm.min.js",
-        format: "es",
+        format: 'esm',
+        file: pkg.module,
         sourcemap: true,
-        plugins: [
-          terser({
-            format: {
-              comments: false
-            }
-          })
-        ]
       },
       {
-        file: "dist/index.cjs.js",
-        format: "cjs",
-        exports: "named",
-        sourcemap: true
+        exports: 'default',
+        format: 'cjs',
+        file: pkg.main
       },
       {
-        file: "dist/index.cjs.min.js",
-        format: "cjs",
-        exports: "named",
+        file: pkg.unpkg,
+        format: 'umd',
+        name: 'VueInstaStory',
         sourcemap: true,
-        plugins: [
-          terser({
-            format: {
-              comments: false
-            }
-          })
-        ]
+        globals: {
+          'animejs': 'anime',
+          'hammerjs': 'Hammer',
+          'vue': 'Vue',
+        },
       }
     ]
-  },
-  // {
-  //   input: "src/global.ts",
-  //   plugins: [resolve(), typescript(), postcss()],
-  //   external: ["vue-demi", "echarts", "echarts/core"],
-  //   output: [
-  //     {
-  //       file: "dist/index.umd.js",
-  //       format: "umd",
-  //       name: "VueECharts",
-  //       exports: "default",
-  //       sourcemap: true,
-  //       globals: {
-  //         "vue-demi": "VueDemi",
-  //         echarts: "echarts",
-  //         "echarts/core": "echarts"
-  //       },
-  //       plugins: [injectVueDemi]
-  //     },
-  //     {
-  //       file: "dist/index.umd.min.js",
-  //       format: "umd",
-  //       name: "VueECharts",
-  //       exports: "default",
-  //       sourcemap: true,
-  //       globals: {
-  //         "vue-demi": "VueDemi",
-  //         echarts: "echarts",
-  //         "echarts/core": "echarts"
-  //       },
-  //       plugins: [
-  //         injectVueDemi,
-  //         terser({
-  //           format: {
-  //             comments: false
-  //           }
-  //         })
-  //       ]
-  //     }
-  //   ]
-  // },
-  // {
-  //   input: "src/index.ts",
-  //   plugins: [ingoreCss, dts()],
-  //   output: {
-  //     file: "dist/index.d.ts",
-  //     format: "es"
-  //   }
-  // }
-];
-
-export default options;
+  }
+]

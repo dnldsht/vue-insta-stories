@@ -11,7 +11,7 @@
 </template>
 
 <script>
-import anime from "animejs/lib/anime.es.js";
+import anime from "animejs";
 import Hammer from "hammerjs";
 import VNode from "./VNode";
 
@@ -39,14 +39,12 @@ export default {
       if (typeof d == "function") {
         // vue 3 is weird
         const [{ children }] = d();
-        console.log(children);
         return children;
       }
 
       return d;
     },
     current() {
-      console.log(this.slides[this.currentSlideIndex]);
       return this.slides[this.currentSlideIndex];
     },
   },
@@ -87,11 +85,8 @@ export default {
       this.$emit("PREVIOUS_STORY");
     },
   },
-  async mounted() {
-    //if (1 === 1) return true;
-    //await this.$nextTick();
+  mounted() {
     let $timeline = this.$el.getElementsByClassName("timeline")[0];
-    //console.log($timeline);
 
     // Add progress bars to the timeline animation group
     this.slides.forEach((color, index) => {
@@ -154,7 +149,7 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style lang="css" scoped>
+<style lang="css">
 .story {
   float: left;
   position: relative;
