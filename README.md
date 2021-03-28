@@ -6,8 +6,6 @@
 
 <br/>
 <img height="600" src="https://i.imgur.com/gyX0XFw.png"/>
-<br/>
-<br/>
 
 ## Install
 ```bash
