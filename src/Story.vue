@@ -15,8 +15,6 @@ import anime from "animejs";
 import Hammer from "hammerjs";
 import VNode from "./VNode";
 
-// const SLIDE_DURATION = 2000;
-
 export default {
   components: { VNode },
   name: "VueInstaStory",
@@ -24,6 +22,10 @@ export default {
     duration: {
       type: Number,
       default: 2000,
+    },
+    startIndex: {
+      type: Number,
+      default: 0,
     },
   },
   data() {
@@ -34,7 +36,7 @@ export default {
     });
 
     return {
-      currentSlideIndex: 0,
+      currentSlideIndex: this.startIndex,
       isActive: false,
       timeline: timeline,
     };
@@ -43,8 +45,8 @@ export default {
     slides() {
       const slot = this.$slots.default;
 
+      // slots are functions in vue 3
       if (typeof slot == "function") {
-        // vue 3 is weird
         return slot()
           .filter(({ type }) => {
             if (typeof type == "symbol")
@@ -56,7 +58,7 @@ export default {
           .reduce((nodes, n) => [...nodes, ...n], []);
       }
 
-      return d;
+      return slot;
     },
     current() {
       return this.slides[this.currentSlideIndex];
@@ -73,7 +75,7 @@ export default {
     resetSlide() {
       // Jump to beginning of the slide
       this.timeline.pause();
-      this.timeline.seek(this.currentSlideIndex * SLIDE_DURATION);
+      this.timeline.seek(this.currentSlideIndex * this.duration);
       this.timeline.play();
     },
     nextSlide() {
@@ -146,7 +148,6 @@ export default {
         this.previousSlide();
       }
     });
-    this.timeline.play();
 
     // Handle swipe
     this.hammer.on("pan", (event) => {
@@ -158,6 +159,9 @@ export default {
         }
       }
     });
+
+    this.timeline.seek(this.currentSlideIndex * this.duration);
+    this.timeline.play();
   },
 };
 </script>

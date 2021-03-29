@@ -1,7 +1,7 @@
 <template>
   <div id="app">
-    <Story>
-      <intro-slide class="slide"></intro-slide>
+    <Story :start-index="0">
+      <intro-slide class="flex-grow"></intro-slide>
       <!-- ciao -->
       <div
         class="slide"
@@ -16,7 +16,6 @@
 </template>
 
 <script>
-// import Story from "vue-insta-stories/src/components/Story";
 import Story from "../../../src/Story.vue";
 import IntroSlide from "./components/IntroSlide.vue";
 
@@ -35,8 +34,8 @@ export default {
   flex-grow: 1;
 
   /* Center align */
-  /* display: flex;
+  display: flex;
   align-items: center;
-  justify-content: center; */
+  justify-content: center;
 }
 </style>
