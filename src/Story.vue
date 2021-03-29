@@ -15,15 +15,21 @@ import anime from "animejs";
 import Hammer from "hammerjs";
 import VNode from "./VNode";
 
-const SLIDE_DURATION = 2000;
+// const SLIDE_DURATION = 2000;
 
 export default {
   components: { VNode },
   name: "VueInstaStory",
+  props: {
+    duration: {
+      type: Number,
+      default: 2000,
+    },
+  },
   data() {
     const timeline = anime.timeline({
       autoplay: false,
-      duration: SLIDE_DURATION,
+      duration: this.duration,
       easing: "linear",
     });
 
