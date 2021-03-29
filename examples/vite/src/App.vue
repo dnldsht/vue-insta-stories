@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <!-- ciao -->
     <Story>
       <intro-slide class="slide"></intro-slide>
+      <!-- ciao -->
       <div
         class="slide"
         v-for="i in 10"

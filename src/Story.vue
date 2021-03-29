@@ -35,22 +35,19 @@ export default {
   },
   computed: {
     slides() {
-      const d = this.$slots.default;
-      console.log(d());
-      if (typeof d == "function") {
-        // vue 3 is weird
+      const slot = this.$slots.default;
 
-        return (
-          d()
-            .filter((n) => {
-              if (n.type == "Symbol(Comment)") return false;
-              console.log(n.type);
-              return true;
-            })
-            // .filter((n) => !n.__v_skip)
-            .map((n) => (n.children instanceof Array ? n.children : [n]))
-            .reduce((nodes, n) => [...nodes, ...n], [])
-        );
+      if (typeof slot == "function") {
+        // vue 3 is weird
+        return slot()
+          .filter(({ type }) => {
+            if (typeof type == "symbol")
+              // filters comments in slot
+              return !["Symbol(Comment)"].includes(type.toString());
+            return true;
+          })
+          .map((n) => (n.children instanceof Array ? n.children : [n]))
+          .reduce((nodes, n) => [...nodes, ...n], []);
       }
 
       return d;
