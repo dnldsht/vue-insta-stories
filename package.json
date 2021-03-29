@@ -22,6 +22,7 @@
   ],
   "scripts": {
     "dev": "cd examples/vite && vite",
+    "dev:vue2": "cd examples/vue2 && yarn serve",
     "build": "rollup -c rollup.config.js",
     "build:vue2": "VUE2=true rollup -c rollup.config.js"
   },
