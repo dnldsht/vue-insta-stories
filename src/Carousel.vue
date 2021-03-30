@@ -17,7 +17,7 @@ export default {
   },
   computed: {
     stories() {
-      return getNodes(this.$scopedSlots?.default ?? this.$slots.default);
+      return getNodes(this.$slots.default);
     },
     currentStory() {
       return this.stories[this.currentIndex];
