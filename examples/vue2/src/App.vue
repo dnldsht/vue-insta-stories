@@ -13,7 +13,7 @@
         <!-- <intro-slide class="flex-grow"></intro-slide> -->
       </Story>
 
-      <Story :key="'story2'" :startIndex="1">
+      <Story :startIndex="1">
         <div
           class="slide"
           v-for="i in 2"

@@ -6,7 +6,7 @@ import VNode from "./VNode";
 import { getNodes } from "./utils";
 export default {
   components: { VNode },
-  data(vm) {
+  data() {
     return {
       on: {
         NEXT_STORY: this.next,
@@ -17,21 +17,18 @@ export default {
   },
   computed: {
     stories() {
-      // console.log(this.$scopedSlots?.default ?? this.$slots.default);
       return getNodes(this.$scopedSlots?.default ?? this.$slots.default);
     },
     currentStory() {
-      console.log("cur", this.currentIndex, this.stories[this.currentIndex]);
       return this.stories[this.currentIndex];
     },
   },
   methods: {
     next() {
       if (this.currentIndex < this.stories.length - 1) this.currentIndex++;
-      console.log("neeeex");
     },
     prev() {
-      if (this.currentIndex > 1) this.currentIndex--;
+      if (this.currentIndex > 0) this.currentIndex--;
     },
   },
 
