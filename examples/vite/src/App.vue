@@ -1,22 +1,26 @@
 <template>
   <div id="app">
-    <StoriesCollection :currentIndex="1">
-      <Stories :interval="10000">
-        <intro-slide class="flex-grow"></intro-slide>
+    <StoriesCollection :currentIndex="0">
+      <Stories :interval="1000000">
+        <WithSeeMore @action="open">
+          <intro-slide class="flex-grow"></intro-slide>
+        </WithSeeMore>
       </Stories>
 
       <!-- v-model:currentIndex="currentIndex" -->
       <Stories :interval="5000">
         <template #header> <PersonHeader /> </template>
 
-        <div
-          class="slide"
+        <WithSeeMore
           v-for="i in 10"
           :key="i"
-          :style="{ background: colors[i % colors.length] }"
+          :enabled="i % 2 == 0"
+          @action="open"
         >
-          Story {{ i - 1 }}
-        </div>
+          <div class="story" :style="{ background: colors[i % colors.length] }">
+            Story {{ i - 1 }}
+          </div>
+        </WithSeeMore>
       </Stories>
     </StoriesCollection>
   </div>
@@ -25,12 +29,19 @@
 <script>
 import StoriesCollection from "../../../src/components/StoriesCollection.vue";
 import Stories from "../../../src/components/Stories.vue";
+import WithSeeMore from "../../../src/components/WithSeeMore.vue";
 import IntroSlide from "./components/IntroSlide.vue";
 import PersonHeader from "./components/PersonHeader.vue";
 
 export default {
   name: "App",
-  components: { StoriesCollection, Stories, IntroSlide, PersonHeader },
+  components: {
+    StoriesCollection,
+    Stories,
+    IntroSlide,
+    PersonHeader,
+    WithSeeMore,
+  },
 
   data: () => ({
     currentIndex: 3,
@@ -41,10 +52,15 @@ export default {
       console.log("watchapp", val);
     },
   },
+  methods: {
+    open() {
+      console.log("Watch whateve");
+    },
+  },
 };
 </script>
 <style scoped>
-.slide {
+.story {
   /* Take the rest of the page */
   flex-grow: 1;
 

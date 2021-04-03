@@ -1,5 +1,5 @@
 <template>
-  <div class="story">
+  <div class="stories">
     <div class="timeline">
       <div class="slice" v-for="(slide, i) in slides" :key="i">
         <div class="progress">&nbsp;</div>
@@ -135,6 +135,7 @@ export default {
         [Hammer.Press, { time: 1, threshold: 1000000 }],
       ],
     });
+    this.hammer.set({ domEvents: true });
 
     this.hammer.on("press", () => {
       this.timeline.pause();
@@ -146,9 +147,10 @@ export default {
 
     // Tap on the side to navigate between slides
     this.hammer.on("tap", (event) => {
-      if (event.center.x > window.innerWidth / 3) {
+      const t = window.innerWidth / 3;
+      if (event.center.x > t * 2) {
         this.nextSlide();
-      } else {
+      } else if (event.center.x < t) {
         this.previousSlide();
       }
     });
@@ -172,7 +174,7 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="css">
-.story {
+.stories {
   float: left;
   position: relative;
   height: 100vh;
@@ -193,6 +195,7 @@ export default {
   flex-grow: 0;
   width: 100%;
   filter: drop-shadow(0 1px 8px #222);
+  z-index: 10;
 }
 
 .timeline > .slice {
