@@ -37,8 +37,10 @@
 </template>
 
 <script>
-import Carousel from "../../../src/Carousel.vue";
-import Story from "../../../src/Story.vue";
+//import { Carousel, Story } from "../../../src/index.js";
+// console.log(Carousel);
+import Carousel from "../../../src/components/Carousel.vue";
+import Story from "../../../src/components/Stories.vue";
 // import IntroSlide from "./components/IntroSlide.vue";
 
 export default {

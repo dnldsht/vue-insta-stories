@@ -14,11 +14,11 @@
 import anime from "animejs";
 import Hammer from "hammerjs";
 import VNode from "./VNode";
-import { getNodes } from "./utils";
+import { getNodes } from "../utils";
 
 export default {
   components: { VNode },
-  name: "VueInstaStory",
+  name: "Stories",
   props: {
     duration: {
       type: Number,
@@ -169,6 +169,7 @@ export default {
   display: flex;
   flex-grow: 0;
   width: 100%;
+  filter: drop-shadow(0 1px 8px #222);
 }
 
 .timeline > .slice {
