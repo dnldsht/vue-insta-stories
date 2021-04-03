@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Carousel>
+    <StoriesCollection>
       <!-- <Story>
         <div
           class="slide"
@@ -32,20 +32,20 @@
           Hi {{ i - 1 }}
         </div> -->
       </Stories>
-    </Carousel>
+    </StoriesCollection>
   </div>
 </template>
 
 <script>
 //import { Carousel, Story } from "../../../src/index.js";
 // console.log(Carousel);
-import Carousel from "../../../src/components/Carousel.vue";
+import StoriesCollection from "../../../src/components/StoriesCollection.vue";
 import Stories from "../../../src/components/Stories.vue";
 // import IntroSlide from "./components/IntroSlide.vue";
 
 export default {
   name: "App",
-  components: { Carousel, Stories },
+  components: { StoriesCollection, Stories },
 
   data: () => ({
     currentIndex: 4,

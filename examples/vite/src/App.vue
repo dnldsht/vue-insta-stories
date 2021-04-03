@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <Carousel>
+    <StoriesCollection :currentIndex="1">
       <Stories :interval="10000">
         <intro-slide class="flex-grow"></intro-slide>
       </Stories>
@@ -16,18 +16,18 @@
           Story {{ i - 1 }}
         </div>
       </Stories>
-    </Carousel>
+    </StoriesCollection>
   </div>
 </template>
 
 <script>
-import Carousel from "../../../src/components/Carousel.vue";
+import StoriesCollection from "../../../src/components/StoriesCollection.vue";
 import Stories from "../../../src/components/Stories.vue";
 import IntroSlide from "./components/IntroSlide.vue";
 
 export default {
   name: "App",
-  components: { Carousel, Stories, IntroSlide },
+  components: { StoriesCollection, Stories, IntroSlide },
 
   data: () => ({
     currentIndex: 3,
