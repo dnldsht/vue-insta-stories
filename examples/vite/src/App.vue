@@ -5,6 +5,7 @@
         <intro-slide class="flex-grow"></intro-slide>
       </Stories> -->
 
+      <!-- v-model:currentIndex="currentIndex" -->
       <Stories :interval="5000">
         <div
           class="slide"
@@ -12,7 +13,7 @@
           :key="i"
           :style="{ background: colors[i % colors.length] }"
         >
-          Story {{ i }}
+          Story {{ i - 1 }}
         </div>
       </Stories>
     </Carousel>
@@ -29,8 +30,14 @@ export default {
   components: { Carousel, Stories, IntroSlide },
 
   data: () => ({
+    currentIndex: 3,
     colors: ["#DAF7A6", "#FFC300", "#FF5733"],
   }),
+  watch: {
+    currentIndex(val) {
+      console.log("watchapp", val);
+    },
+  },
 };
 </script>
 <style scoped>

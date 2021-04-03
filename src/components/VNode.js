@@ -12,7 +12,7 @@ export default {
     if (p.on) {
       if (isVue2) {
         p.node.key = data.key
-        p.node.componentOptions.listeners = p.on
+        p.node.componentOptions.listeners = { ...p.node.componentOptions.listeners, ...p.on }
       } else {
         const onProps = Object.entries(p.on).reduce((prev, [key, value]) => ({ ...prev, [`on${key}`]: value }), {})
         p.node.props = { ...p.node.props, ...onProps }

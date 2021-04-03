@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Carousel>
-      <Story>
+      <!-- <Story>
         <div
           class="slide"
           v-for="i in 2"
@@ -10,28 +10,28 @@
         >
           Story {{ i }}
         </div>
-        <!-- <intro-slide class="flex-grow"></intro-slide> -->
-      </Story>
+       
+      </Story> -->
 
-      <Story :startIndex="1">
+      <Stories :current-index.sync="currentIndex">
         <div
           class="slide"
-          v-for="i in 2"
+          v-for="i in 10"
           :key="i"
           :style="{ background: colors[i % colors.length] }"
         >
-          Hi {{ i }}
+          Hi {{ i - 1 }}
         </div>
 
-        <div
+        <!-- <div
           class="slide"
           v-for="i in 2"
           :key="i + 4"
           :style="{ background: colors[i % colors.length] }"
         >
-          Hi {{ i }}
-        </div>
-      </Story>
+          Hi {{ i - 1 }}
+        </div> -->
+      </Stories>
     </Carousel>
   </div>
 </template>
@@ -40,16 +40,35 @@
 //import { Carousel, Story } from "../../../src/index.js";
 // console.log(Carousel);
 import Carousel from "../../../src/components/Carousel.vue";
-import Story from "../../../src/components/Stories.vue";
+import Stories from "../../../src/components/Stories.vue";
 // import IntroSlide from "./components/IntroSlide.vue";
 
 export default {
   name: "App",
-  components: { Carousel, Story },
+  components: { Carousel, Stories },
 
   data: () => ({
+    currentIndex: 4,
     colors: ["#DAF7A6", "#FFC300", "#FF5733"],
   }),
+
+  watch: {
+    currentIndex(val) {
+      console.log("watchapp", val);
+    },
+  },
+  mounted() {
+    setTimeout(() => {
+      //this.$set()
+      this.currentIndex = 0;
+      console.log("back");
+    }, 2000);
+  },
+  methods: {
+    print(currentIndex) {
+      console.log(currentIndex, "wee");
+    },
+  },
 };
 </script>
 <style scoped>

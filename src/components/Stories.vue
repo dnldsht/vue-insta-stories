@@ -24,9 +24,17 @@ export default {
       type: Number,
       default: 2000,
     },
-    startIndex: {
+    currentIndex: {
       type: Number,
       default: 0,
+    },
+  },
+  watch: {
+    currentIndex: {
+      handler(val) {
+        this.index = val;
+        this.resetSlide();
+      },
     },
   },
   data() {
@@ -34,13 +42,10 @@ export default {
       autoplay: false,
       duration: this.interval,
       easing: "linear",
-      changeComplete: (e) => {
-        console.log("onStoriesEnded", e);
-      },
     });
 
     return {
-      currentSlideIndex: this.startIndex,
+      index: this.currentIndex,
       isActive: false,
       timeline: timeline,
     };
@@ -50,7 +55,7 @@ export default {
       return getNodes(this.$slots.default);
     },
     current() {
-      return this.slides[this.currentSlideIndex];
+      return this.slides[this.index];
     },
   },
   methods: {
@@ -64,20 +69,20 @@ export default {
     resetSlide() {
       // Jump to beginning of the slide
       this.timeline.pause();
-      this.timeline.seek(this.currentSlideIndex * this.interval);
+      this.timeline.seek(this.index * this.interval);
       this.timeline.play();
     },
     nextSlide() {
-      if (this.currentSlideIndex < this.slides.length - 1) {
-        this.currentSlideIndex++;
+      if (this.index < this.slides.length - 1) {
+        this.index++;
         this.resetSlide();
       } else {
         this.nextStory();
       }
     },
     previousSlide() {
-      if (this.currentSlideIndex > 0) {
-        this.currentSlideIndex--;
+      if (this.index > 0) {
+        this.index--;
         this.resetSlide();
       } else {
         this.previousStory();
@@ -102,8 +107,9 @@ export default {
         width: "100%",
         changeBegin: () => {
           // Update the Vue componenet state when progress bar begins to play
-          this.currentSlideIndex = index;
+          this.index = index;
           this.$emit("onStoryStart", index);
+          this.$emit("update:currentIndex", index);
         },
         changeComplete: () => {
           this.$emit("onStoryEnd", index);
@@ -154,7 +160,7 @@ export default {
       }
     });
 
-    this.timeline.seek(this.currentSlideIndex * this.interval);
+    this.timeline.seek(this.index * this.interval);
     this.timeline.play();
   },
 };
