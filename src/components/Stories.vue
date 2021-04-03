@@ -14,10 +14,11 @@
 import anime from "animejs";
 import Hammer from "hammerjs";
 import VNode from "./VNode";
+import { getNodes } from "../utils";
 
 export default {
   components: { VNode },
-  name: "VueInstaStory",
+  name: "Stories",
   props: {
     duration: {
       type: Number,
@@ -43,22 +44,7 @@ export default {
   },
   computed: {
     slides() {
-      const slot = this.$slots.default;
-
-      // slots are functions in vue 3
-      if (typeof slot == "function") {
-        return slot()
-          .filter(({ type }) => {
-            if (typeof type == "symbol")
-              // filters comments in slot
-              return !["Symbol(Comment)"].includes(type.toString());
-            return true;
-          })
-          .map((n) => (n.children instanceof Array ? n.children : [n]))
-          .reduce((nodes, n) => [...nodes, ...n], []);
-      }
-
-      return slot;
+      return getNodes(this.$slots.default);
     },
     current() {
       return this.slides[this.currentSlideIndex];
@@ -183,6 +169,7 @@ export default {
   display: flex;
   flex-grow: 0;
   width: 100%;
+  filter: drop-shadow(0 1px 8px #222);
 }
 
 .timeline > .slice {
