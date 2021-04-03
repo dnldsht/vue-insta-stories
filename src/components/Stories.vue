@@ -20,7 +20,7 @@ export default {
   components: { VNode },
   name: "Stories",
   props: {
-    duration: {
+    interval: {
       type: Number,
       default: 2000,
     },
@@ -32,7 +32,7 @@ export default {
   data() {
     const timeline = anime.timeline({
       autoplay: false,
-      duration: this.duration,
+      duration: this.interval,
       easing: "linear",
     });
 
@@ -61,7 +61,7 @@ export default {
     resetSlide() {
       // Jump to beginning of the slide
       this.timeline.pause();
-      this.timeline.seek(this.currentSlideIndex * this.duration);
+      this.timeline.seek(this.currentSlideIndex * this.interval);
       this.timeline.play();
     },
     nextSlide() {
@@ -146,7 +146,7 @@ export default {
       }
     });
 
-    this.timeline.seek(this.currentSlideIndex * this.duration);
+    this.timeline.seek(this.currentSlideIndex * this.interval);
     this.timeline.play();
   },
 };
