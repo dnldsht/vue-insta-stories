@@ -1,13 +1,11 @@
 <template>
   <div id="app">
     <StoriesCollection :currentIndex="0">
-      <Stories :interval="1000000">
+      <Stories v-bind="options">
         <WithSeeMore @action="open">
           <intro-slide class="flex-grow"></intro-slide>
         </WithSeeMore>
       </Stories>
-
-      <!-- v-model:currentIndex="currentIndex" -->
       <Stories :interval="5000">
         <template #header> <PersonHeader /> </template>
 
@@ -44,6 +42,10 @@ export default {
   },
 
   data: () => ({
+    options: {
+      interval: 30000,
+      currentIndex: 0,
+    },
     currentIndex: 3,
     colors: ["#DAF7A6", "#FFC300", "#FF5733"],
   }),
