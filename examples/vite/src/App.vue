@@ -7,6 +7,8 @@
 
       <!-- v-model:currentIndex="currentIndex" -->
       <Stories :interval="5000">
+        <template #header> <PersonHeader /> </template>
+
         <div
           class="slide"
           v-for="i in 10"
@@ -24,10 +26,11 @@
 import StoriesCollection from "../../../src/components/StoriesCollection.vue";
 import Stories from "../../../src/components/Stories.vue";
 import IntroSlide from "./components/IntroSlide.vue";
+import PersonHeader from "./components/PersonHeader.vue";
 
 export default {
   name: "App",
-  components: { StoriesCollection, Stories, IntroSlide },
+  components: { StoriesCollection, Stories, IntroSlide, PersonHeader },
 
   data: () => ({
     currentIndex: 3,

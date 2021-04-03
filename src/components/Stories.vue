@@ -6,6 +6,10 @@
       </div>
     </div>
 
+    <div class="header">
+      <slot name="header"></slot>
+    </div>
+
     <VNode :node="current"></VNode>
   </div>
 </template>
@@ -176,6 +180,11 @@ export default {
   z-index: 1;
   display: flex;
   flex-direction: column;
+}
+.header {
+  position: absolute;
+  top: 20px;
+  left: 15px;
 }
 
 .timeline {
