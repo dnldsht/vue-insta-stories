@@ -3,10 +3,10 @@
     <slot />
 
     <div ref="seeMore" v-if="enabled" class="see-more">
-      <!-- <slot :emit="emit" name="see-more"> -->
-      <span :style="{ opacity }" class="see-more-icon">⌃</span>
-      <span :style="{ opacity }" class="see-more-text">{{ label }}</span>
-      <!-- </slot> -->
+      <slot :emit="emit" name="see-more">
+        <span :style="{ opacity }" class="see-more-icon">⌃</span>
+        <span :style="{ opacity }" class="see-more-text">{{ label }}</span>
+      </slot>
     </div>
   </div>
 </template>
@@ -46,7 +46,6 @@ export default {
 
     this.hammer.on("swipeup", (event) => {
       this.emit();
-      console.log("swipeup");
     });
 
     this.hammer.on("tap", (event) => {
