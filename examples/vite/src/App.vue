@@ -1,9 +1,9 @@
 <template>
   <div id="app">
     <Carousel>
-      <!-- <Stories :interval="10000">
+      <Stories :interval="10000">
         <intro-slide class="flex-grow"></intro-slide>
-      </Stories> -->
+      </Stories>
 
       <!-- v-model:currentIndex="currentIndex" -->
       <Stories :interval="5000">

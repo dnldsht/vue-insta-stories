@@ -1,5 +1,9 @@
 <template>
-  <v-node :key="currentIndex" :node="currentStory" :on="on"></v-node>
+  <v-node
+    :key="`stories${currentIndex}`"
+    :node="currentStory"
+    :on="on"
+  ></v-node>
 </template>
 <script>
 import VNode from "./VNode";

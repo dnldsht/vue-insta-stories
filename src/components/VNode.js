@@ -4,7 +4,6 @@ export default {
     node: { type: Object, required: true },
     on: { type: Object, required: false }
   },
-  // props: ['node', 'on'],
   render: ({ $props }, { props, data }) => {
     const isVue2 = $props == undefined
     const p = (props || $props)
