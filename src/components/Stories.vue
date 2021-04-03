@@ -34,6 +34,9 @@ export default {
       autoplay: false,
       duration: this.interval,
       easing: "linear",
+      changeComplete: (e) => {
+        console.log("onStoriesEnded", e);
+      },
     });
 
     return {
@@ -100,11 +103,16 @@ export default {
         changeBegin: () => {
           // Update the Vue componenet state when progress bar begins to play
           this.currentSlideIndex = index;
+          this.$emit("onStoryStart", index);
+        },
+        changeComplete: () => {
+          this.$emit("onStoryEnd", index);
         },
         complete: () => {
           // Move to the next story when finished playing all slides
           if (index === this.slides.length - 1) {
             this.nextStory();
+            this.$emit("onAllStoriesEnd");
           }
         },
       });

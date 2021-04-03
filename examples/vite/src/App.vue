@@ -1,32 +1,32 @@
 <template>
   <div id="app">
     <Carousel>
-      <Story :start-index="0">
+      <!-- <Stories :interval="10000">
         <intro-slide class="flex-grow"></intro-slide>
-      </Story>
+      </Stories> -->
 
-      <Story>
+      <Stories :interval="5000">
         <div
           class="slide"
-          v-for="i in 2"
+          v-for="i in 10"
           :key="i"
           :style="{ background: colors[i % colors.length] }"
         >
           Story {{ i }}
         </div>
-      </Story>
+      </Stories>
     </Carousel>
   </div>
 </template>
 
 <script>
 import Carousel from "../../../src/components/Carousel.vue";
-import Story from "../../../src/components/Stories.vue";
+import Stories from "../../../src/components/Stories.vue";
 import IntroSlide from "./components/IntroSlide.vue";
 
 export default {
   name: "App",
-  components: { Carousel, Story, IntroSlide },
+  components: { Carousel, Stories, IntroSlide },
 
   data: () => ({
     colors: ["#DAF7A6", "#FFC300", "#FF5733"],

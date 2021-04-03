@@ -4,6 +4,7 @@
 <script>
 import VNode from "./VNode";
 import { getNodes } from "../utils";
+
 export default {
   components: { VNode },
   data() {
