@@ -14,7 +14,12 @@
       </Story> -->
 
       <Stories :current-index.sync="currentIndex">
-        <WithSeeMore v-for="i in 10" :key="i" @action="open">
+        <WithSeeMore
+          v-for="i in 10"
+          :interval="i * 1000"
+          :key="i"
+          @action="open"
+        >
           <div class="slide" :style="{ background: colors[i % colors.length] }">
             Hi {{ i - 1 }}
           </div>
@@ -50,16 +55,11 @@ export default {
     colors: ["#DAF7A6", "#FFC300", "#FF5733"],
   }),
 
-  watch: {
-    currentIndex(val) {
-      console.log("watchapp", val);
-    },
-  },
   mounted() {
     setTimeout(() => {
       //this.$set()
       this.currentIndex = 0;
-      console.log("back");
+      // console.log("back");
     }, 2000);
   },
   methods: {

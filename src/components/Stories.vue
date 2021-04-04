@@ -112,11 +112,15 @@ export default {
     let $timeline = this.$el.getElementsByClassName("timeline")[0];
 
     // Add progress bars to the timeline animation group
-    this.slides.forEach((color, index) => {
+    this.slides.forEach((slide, index) => {
+      // vue3 && vue2 support
+      const attrs = slide.props ?? slide.data?.attrs ?? {};
+
       const slices = $timeline.getElementsByClassName("slice");
-      //console.log(slices);
+      console.log(attrs);
       this.timeline.add({
         targets: slices[index].getElementsByClassName("progress"),
+        duration: attrs.interval,
         width: "100%",
         changeBegin: () => {
           // Update the Vue componenet state when progress bar begins to play
