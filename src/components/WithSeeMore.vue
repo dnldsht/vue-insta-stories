@@ -2,7 +2,7 @@
   <div class="wrapper">
     <slot />
 
-    <div ref="seeMore" v-if="enabled" class="see-more">
+    <div ref="seeMore" v-if="enabled" @tap.stop="emit" class="see-more">
       <slot :emit="emit" name="see-more">
         <span :style="{ opacity }" class="see-more-icon">⌃</span>
         <span :style="{ opacity }" class="see-more-text">{{ label }}</span>
@@ -25,10 +25,17 @@ export default {
   },
   data: () => ({
     opacity: 0,
+    lastTimeStamp: 0,
   }),
   methods: {
-    emit() {
-      this.$emit("action");
+    emit(e) {
+      // I dont know why the tap event is fired twice
+      const t = e?.timeStamp ?? 0;
+      if (t == 0) this.$emit("action");
+      else {
+        if (t - this.lastTimeStamp > 100) this.$emit("action");
+        this.lastTimeStamp = t;
+      }
     },
   },
   mounted() {
@@ -38,17 +45,13 @@ export default {
       domEvents: true,
       recognizers: [
         [Hammer.Swipe, { direction: Hammer.DIRECTION_VERTICAL }],
+
+        // used as @tap to support stopPropagation
         [Hammer.Tap],
       ],
     });
 
-    this.hammer.set({ domEvents: true });
-
-    this.hammer.on("swipeup", (event) => {
-      this.emit();
-    });
-
-    this.hammer.on("tap", (event) => {
+    this.hammer.on("swipeup", () => {
       this.emit();
     });
   },

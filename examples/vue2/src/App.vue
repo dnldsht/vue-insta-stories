@@ -14,14 +14,11 @@
       </Story> -->
 
       <Stories :current-index.sync="currentIndex">
-        <div
-          class="slide"
-          v-for="i in 10"
-          :key="i"
-          :style="{ background: colors[i % colors.length] }"
-        >
-          Hi {{ i - 1 }}
-        </div>
+        <WithSeeMore v-for="i in 10" :key="i" @action="open">
+          <div class="slide" :style="{ background: colors[i % colors.length] }">
+            Hi {{ i - 1 }}
+          </div>
+        </WithSeeMore>
 
         <!-- <div
           class="slide"
@@ -41,11 +38,12 @@
 // console.log(Carousel);
 import StoriesCollection from "../../../src/components/StoriesCollection.vue";
 import Stories from "../../../src/components/Stories.vue";
+import WithSeeMore from "../../../src/components/WithSeeMore.vue";
 // import IntroSlide from "./components/IntroSlide.vue";
 
 export default {
   name: "App",
-  components: { StoriesCollection, Stories },
+  components: { StoriesCollection, Stories, WithSeeMore },
 
   data: () => ({
     currentIndex: 4,
@@ -67,6 +65,9 @@ export default {
   methods: {
     print(currentIndex) {
       console.log(currentIndex, "wee");
+    },
+    open() {
+      console.log("open");
     },
   },
 };

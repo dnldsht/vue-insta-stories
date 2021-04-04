@@ -1,5 +1,5 @@
 <template>
-  <div class="stories">
+  <div @tap="tap" class="stories">
     <div class="timeline">
       <div class="slice" v-for="(slide, i) in slides" :key="i">
         <div class="progress">&nbsp;</div>
@@ -98,6 +98,15 @@ export default {
     previousStory() {
       this.$emit("PREVIOUS_STORY");
     },
+    tap(e) {
+      const x = e.gesture.srcEvent.x;
+      const t = window.innerWidth / 3;
+      if (x > t) {
+        this.nextSlide();
+      } else {
+        this.previousSlide();
+      }
+    },
   },
   mounted() {
     let $timeline = this.$el.getElementsByClassName("timeline")[0];
@@ -129,30 +138,22 @@ export default {
     });
 
     this.hammer = new Hammer.Manager(this.$el, {
+      domEvents: true,
       recognizers: [
         [Hammer.Pan, { direction: Hammer.DIRECTION_HORIZONTAL }],
-        [Hammer.Tap],
         [Hammer.Press, { time: 1, threshold: 1000000 }],
+
+        // used as @tap to support stopPropagation
+        [Hammer.Tap],
       ],
     });
-    this.hammer.set({ domEvents: true });
 
-    this.hammer.on("press", () => {
+    this.hammer.on("press", (e) => {
       this.timeline.pause();
     });
 
-    this.hammer.on("pressup tap", () => {
+    this.hammer.on("pressup tap", (e) => {
       this.timeline.play();
-    });
-
-    // Tap on the side to navigate between slides
-    this.hammer.on("tap", (event) => {
-      const t = window.innerWidth / 3;
-      if (event.center.x > t * 2) {
-        this.nextSlide();
-      } else if (event.center.x < t) {
-        this.previousSlide();
-      }
     });
 
     // Handle swipe
