@@ -18,7 +18,7 @@
 import anime from "animejs";
 import Hammer from "hammerjs";
 import VNode from "./VNode";
-import { getNodes } from "../utils";
+import { getNodes, fadeOut, fadeIn } from "../utils";
 
 export default {
   components: { VNode },
@@ -154,10 +154,19 @@ export default {
 
     this.hammer.on("press", (e) => {
       this.timeline.pause();
+      // hide
+      fadeOut(this.$el.getElementsByClassName("timeline")[0])
+      fadeOut(this.$el.getElementsByClassName("header")[0])
+      //this.$emit("TIMELINE_PAUSE");
+      
     });
 
     this.hammer.on("pressup tap", (e) => {
       this.timeline.play();
+      //show
+      fadeIn(this.$el.getElementsByClassName("timeline")[0]);
+      fadeIn(this.$el.getElementsByClassName("header")[0])
+      //this.$emit("TIMELINE_PLAY");
     });
 
     // Handle swipe
@@ -220,4 +229,5 @@ export default {
   border-radius: 2px;
   width: 0%;
 }
+
 </style>
