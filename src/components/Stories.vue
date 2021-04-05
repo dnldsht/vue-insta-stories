@@ -190,8 +190,9 @@ export default {
 }
 .header {
   position: absolute;
-  top: 20px;
-  left: 15px;
+  z-index: 10;
+  top: 22px;
+  left: 16px;
 }
 
 .timeline {
@@ -199,12 +200,14 @@ export default {
   display: flex;
   flex-grow: 0;
   width: 100%;
-  filter: drop-shadow(0 1px 8px #222);
+  background: -webkit-gradient(linear, top,bottom, from(rgba(0,0,0,0.2)), to(rgba(0,0,0,0)));
+  background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0));
+  padding-bottom: 8px; /* To add more space for gradient */
   z-index: 10;
 }
 
 .timeline > .slice {
-  background: rgba(255, 255, 255, 0.9);
+  background: rgba(255, 255, 255, 0.5);
   height: 2px;
   border-radius: 2px;
   margin: 6px 3px;
@@ -212,7 +215,7 @@ export default {
 }
 
 .timeline > .slice > .progress {
-  background: #555;
+  background: #fff;
   height: 2px;
   border-radius: 2px;
   width: 0%;

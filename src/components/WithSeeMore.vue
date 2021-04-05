@@ -81,8 +81,9 @@ export default {
   text-align: center;
   letter-spacing: 0.1em;
   margin-bottom: 2.2vh;
-
-  font-size: 0.8em;
+  font-weight: bold;
+  font-size: 1rem;  
+  text-transform: uppercase;
   transition: opacity 300ms ease-in-out;
 }
 .see-more-icon {

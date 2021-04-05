@@ -7,7 +7,7 @@
         </WithSeeMore>
       </Stories> -->
       <Stories :interval="1000">
-        <template #header> <PersonHeader /> </template>
+        <template #header> <PersonHeader/> </template>
 
         <WithSeeMore
           v-for="i in 10"
