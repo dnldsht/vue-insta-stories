@@ -7,7 +7,13 @@
         </WithSeeMore>
       </Stories> -->
       <Stories :interval="1000">
-        <template #header> <PersonHeader/> </template>
+        <template #header> 
+          <StoryHeader :options="{label: 'test'}"/>
+          <!--<StoryHeader :options="{custom: true}">💎 
+            <span>with <code>html</code></span>
+          </StoryHeader>
+          -->
+        </template>
 
         <WithSeeMore
           v-for="i in 10"
@@ -29,7 +35,7 @@ import StoriesCollection from "../../../src/components/StoriesCollection.vue";
 import Stories from "../../../src/components/Stories.vue";
 import WithSeeMore from "../../../src/components/WithSeeMore.vue";
 import IntroSlide from "./components/IntroSlide.vue";
-import PersonHeader from "./components/PersonHeader.vue";
+import StoryHeader from "./components/StoryHeader.vue";
 
 export default {
   name: "App",
@@ -37,7 +43,7 @@ export default {
     StoriesCollection,
     Stories,
     IntroSlide,
-    PersonHeader,
+    StoryHeader,
     WithSeeMore,
   },
 
