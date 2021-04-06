@@ -82,7 +82,7 @@ export default {
   letter-spacing: 0.1em;
   margin-bottom: 2.2vh;
   font-weight: bold;
-  font-size: 1rem;  
+  font-size: 1rem;
   text-transform: uppercase;
   transition: opacity 300ms ease-in-out;
 }

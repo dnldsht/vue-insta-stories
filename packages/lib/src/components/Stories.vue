@@ -1,5 +1,5 @@
 <template>
-  <div @tap="tap" class="stories">
+  <div ref="stories" @tap="tap" class="stories">
     <div class="timeline">
       <div class="slice" v-for="(slide, i) in slides" :key="i">
         <div class="progress">&nbsp;</div>
@@ -36,6 +36,7 @@ export default {
   watch: {
     currentIndex: {
       handler(val) {
+        console.log("watch", val);
         this.index = val;
         this.resetSlide();
       },
@@ -101,6 +102,7 @@ export default {
     tap(e) {
       const x = e.gesture.srcEvent.x;
       const t = window.innerWidth / 3;
+
       if (x > t) {
         this.nextSlide();
       } else {
@@ -117,7 +119,7 @@ export default {
       const attrs = slide.props ?? slide.data?.attrs ?? {};
 
       const slices = $timeline.getElementsByClassName("slice");
-      console.log(attrs);
+      // console.log(attrs);
       this.timeline.add({
         targets: slices[index].getElementsByClassName("progress"),
         duration: attrs.interval,
@@ -141,31 +143,31 @@ export default {
       });
     });
 
-    this.hammer = new Hammer.Manager(this.$el, {
+    this.hammer = new Hammer.Manager(this.$refs.stories, {
       domEvents: true,
       recognizers: [
         [Hammer.Pan, { direction: Hammer.DIRECTION_HORIZONTAL }],
-        [Hammer.Press, { time: 1, threshold: 1000000 }],
-
         // used as @tap to support stopPropagation
         [Hammer.Tap],
+
+        [Hammer.Press, { time: 1, threshold: 1000000 }],
       ],
     });
 
     this.hammer.on("press", (e) => {
       this.timeline.pause();
       // hide
-      fadeOut(this.$el.getElementsByClassName("timeline")[0])
-      fadeOut(this.$el.getElementsByClassName("header")[0])
+      console.log(e);
+      fadeOut(this.$el.getElementsByClassName("timeline")[0]);
+      fadeOut(this.$el.getElementsByClassName("header")[0]);
       //this.$emit("TIMELINE_PAUSE");
-      
     });
 
     this.hammer.on("pressup tap", (e) => {
       this.timeline.play();
       //show
       fadeIn(this.$el.getElementsByClassName("timeline")[0]);
-      fadeIn(this.$el.getElementsByClassName("header")[0])
+      fadeIn(this.$el.getElementsByClassName("header")[0]);
       //this.$emit("TIMELINE_PLAY");
     });
 
@@ -209,8 +211,14 @@ export default {
   display: flex;
   flex-grow: 0;
   width: 100%;
-  background: -webkit-gradient(linear, top,bottom, from(rgba(0,0,0,0.2)), to(rgba(0,0,0,0)));
-  background: linear-gradient(to bottom, rgba(0,0,0,0.2), rgba(0,0,0,0));
+  background: -webkit-gradient(
+    linear,
+    top,
+    bottom,
+    from(rgba(0, 0, 0, 0.2)),
+    to(rgba(0, 0, 0, 0))
+  );
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
   padding-bottom: 8px; /* To add more space for gradient */
   z-index: 10;
 }
@@ -229,5 +237,4 @@ export default {
   border-radius: 2px;
   width: 0%;
 }
-
 </style>
