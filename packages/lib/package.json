@@ -21,11 +21,8 @@
     "src/Story.vue"
   ],
   "scripts": {
-    "dev": "cd examples/vite && vite",
-    "dev:vue2": "cd examples/vue2 && yarn serve",
     "build": "rollup -c",
-    "build:watch": "rollup -c -w",
-    "build:vue2": "VUE2=true rollup -c rollup.config.js"
+    "build:watch": "rollup -c -w"
   },
   "dependencies": {
     "animejs": "^3.2.1",
