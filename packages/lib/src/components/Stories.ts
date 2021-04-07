@@ -6,6 +6,7 @@ import { StoryOptions } from '../types';
 import { fadeOut, fadeIn, getX } from "../utils";
 
 import '../main.css'
+import { defaults } from 'hammerjs';
 
 export default defineComponent({
   name: "Stories",
@@ -24,17 +25,28 @@ export default defineComponent({
     },
   },
   watch: {
-    currentIndex: {
-      handler(val) {
-        console.log("watch", val);
-        this.index = val;
-        this.resetSlide();
-      },
+    currentIndex(val) {
+      console.log("watch", val);
+      this.index = val;
+      this.resetSlide();
+
     },
-    paused: {
-      handler(val) {
-        if (val) this.pause()
-        else this.play()
+    paused(val) {
+      if (val) this.pause()
+      else this.play()
+    },
+    stories: {
+      immediate: true,
+      handler(val: Array<StoryOptions | string>) {
+        this.items = val.map(i => {
+          let defaults = {
+            duration: this.interval,
+            type: 'image',
+          }
+
+          if (typeof i == 'string') return { ...defaults, url: i }
+          else return { ...defaults, ...i }
+        })
       }
     }
   },
@@ -49,21 +61,16 @@ export default defineComponent({
       index: this.currentIndex,
       timeline: timeline,
       paused: false,
-      mouseDownTimeout: undefined as NodeJS.Timeout | undefined
+      mouseDownTimeout: undefined as NodeJS.Timeout | undefined,
+      items: [] as StoryOptions[]
     };
   },
-  computed: {
-    items(): StoryOptions[] {
-      return this.stories.map(i => {
-        if (typeof i == 'string') return { url: i, type: 'image' }
-        else return i
-      })
-    },
-  },
+
   methods: {
     resetSlide() {
       this.timeline.pause();
-      this.timeline.seek(this.index * this.interval);
+      const offset = this.items.slice(0, this.index).reduce((tot, { duration }) => tot + duration, 0)
+      this.timeline.seek(offset);
     },
     nextSlide() {
       if (this.index < this.stories.length - 1) {

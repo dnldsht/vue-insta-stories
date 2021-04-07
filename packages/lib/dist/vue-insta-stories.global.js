@@ -268,19 +268,31 @@
             },
         },
         watch: {
-            currentIndex: {
-                handler: function (val) {
-                    console.log("watch", val);
-                    this.index = val;
-                    this.resetSlide();
-                },
+            currentIndex: function (val) {
+                console.log("watch", val);
+                this.index = val;
+                this.resetSlide();
             },
-            paused: {
+            paused: function (val) {
+                if (val)
+                    this.pause();
+                else
+                    this.play();
+            },
+            stories: {
+                immediate: true,
                 handler: function (val) {
-                    if (val)
-                        this.pause();
-                    else
-                        this.play();
+                    var _this = this;
+                    this.items = val.map(function (i) {
+                        var defaults = {
+                            duration: _this.interval,
+                            type: 'image',
+                        };
+                        if (typeof i == 'string')
+                            return __assign(__assign({}, defaults), { url: i });
+                        else
+                            return __assign(__assign({}, defaults), i);
+                    });
                 }
             }
         },
@@ -294,23 +306,18 @@
                 index: this.currentIndex,
                 timeline: timeline,
                 paused: false,
-                mouseDownTimeout: undefined
+                mouseDownTimeout: undefined,
+                items: []
             };
-        },
-        computed: {
-            items: function () {
-                return this.stories.map(function (i) {
-                    if (typeof i == 'string')
-                        return { url: i, type: 'image' };
-                    else
-                        return i;
-                });
-            },
         },
         methods: {
             resetSlide: function () {
                 this.timeline.pause();
-                this.timeline.seek(this.index * this.interval);
+                var offset = this.items.slice(0, this.index).reduce(function (tot, _a) {
+                    var duration = _a.duration;
+                    return tot + duration;
+                }, 0);
+                this.timeline.seek(offset);
             },
             nextSlide: function () {
                 if (this.index < this.stories.length - 1) {
