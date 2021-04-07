@@ -16,8 +16,10 @@ export default defineComponent({
       margin: "auto"
     }
 
+    //this.$emit('action', 'pause')
+
     const imageLoaded = () => {
-      this.$emit('play', this.story.url)
+      //this.$emit('action', 'play')
     }
 
     return h('img', { src: this.story.url, style, onLoad: imageLoaded })

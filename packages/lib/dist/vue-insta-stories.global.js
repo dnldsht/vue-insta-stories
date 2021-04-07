@@ -92,7 +92,6 @@
             }
         },
         render: function () {
-            var _this = this;
             var style = {
                 width: "auto",
                 maxWidth: "100%",
@@ -100,7 +99,6 @@
                 margin: "auto"
             };
             var imageLoaded = function () {
-                _this.$emit('play', _this.story.url);
             };
             return vueDemi.h('img', { src: this.story.url, style: style, onLoad: imageLoaded });
         }
@@ -153,7 +151,7 @@
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            this.$emit('videoDuration', this.vid.duration * 1000);
+                            this.$emit('action', 'duration', this.vid.duration * 1000);
                             _a.label = 1;
                         case 1:
                             _a.trys.push([1, 3, , 4]);
@@ -175,7 +173,11 @@
                     }
                 });
             }); };
-            return vueDemi.h('video', __assign(__assign({ src: this.story.url, ref: "vid" }, videoAttrs), { style: style, onLoadeddata: onLoadeddata }));
+            this.$emit('action', 'pause');
+            var onPlaying = function () {
+                _this.$emit('action', 'play');
+            };
+            return vueDemi.h('video', __assign(__assign({ src: this.story.url, ref: "vid" }, videoAttrs), { style: style, onLoadeddata: onLoadeddata, onPlaying: onPlaying }));
         }
     });
 
@@ -345,15 +347,21 @@
             togglePause: function () {
                 this.paused = !this.paused;
             },
-            pause: function () {
+            pause: function (anim) {
+                if (anim === void 0) { anim = true; }
                 this.timeline.pause();
-                fadeOut(this.$refs.timeline);
-                fadeOut(this.$refs.header);
+                if (anim) {
+                    fadeOut(this.$refs.timeline);
+                    fadeOut(this.$refs.header);
+                }
             },
-            play: function () {
+            play: function (anim) {
+                if (anim === void 0) { anim = true; }
                 this.timeline.play();
-                fadeIn(this.$refs.timeline);
-                fadeIn(this.$refs.header);
+                if (anim) {
+                    fadeIn(this.$refs.timeline);
+                    fadeIn(this.$refs.header);
+                }
             }
         },
         mounted: function () {
@@ -386,10 +394,21 @@
             var _this = this;
             var slices = this.items.map(function (_, key) { return vueDemi.h('div', { class: 'slice', key: key }, vueDemi.h('div', { class: 'progress' })); });
             var story = this.items[this.index];
-            var onPlay = function () {
-            };
-            var onVideoDuration = function (duration) {
-                console.log(duration);
+            var onAction = function (action, data) {
+                switch (action) {
+                    case 'play':
+                        _this.play(false);
+                        break;
+                    case 'pause':
+                        _this.pause(false);
+                        break;
+                    case 'duration':
+                        var duration = data;
+                        console.log(duration);
+                        break;
+                    default:
+                        console.log(action, data);
+                }
             };
             var mouseDown = function (e) {
                 e.preventDefault();
@@ -417,7 +436,7 @@
                 onMousedown: mouseDown,
                 onMouseup: mouseUp
             };
-            var renderProps = { story: story, onPlay: onPlay, isPaused: this.paused, onVideoDuration: onVideoDuration };
+            var renderProps = { story: story, onAction: onAction, isPaused: this.paused };
             var header = this.$slots.header;
             return vueDemi.h('div', __assign({ ref: 'stories', class: 'stories' }, storiesEvents), [
                 vueDemi.h('div', { class: 'timeline', ref: 'timeline' }, slices),

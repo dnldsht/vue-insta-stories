@@ -43,7 +43,7 @@ export default defineComponent({
     }
 
     const onLoadeddata = async () => {
-      this.$emit('videoDuration', this.vid.duration * 1000)
+      this.$emit('action', 'duration', this.vid.duration * 1000)
 
       try {
         await this.vid.play()
@@ -54,9 +54,11 @@ export default defineComponent({
       }
     }
 
-    // const onPlaying = () => {
-    //   console.log("onPlaying")
-    // }
-    return h('video', { src: this.story.url, ref: "vid", ...videoAttrs, style, onLoadeddata })
+    this.$emit('action', 'pause')
+
+    const onPlaying = () => {
+      this.$emit('action', 'play')
+    }
+    return h('video', { src: this.story.url, ref: "vid", ...videoAttrs, style, onLoadeddata, onPlaying })
   }
 })

@@ -17,8 +17,7 @@ const getRender = (type: string) => {
 
 interface RenderProps {
   story: StoryOptions
-  onPlay: () => void
-  onVideoDuration: (duration: number) => void
+  onAction: (action: string, data?: any) => void
   isPaused: boolean
 }
 

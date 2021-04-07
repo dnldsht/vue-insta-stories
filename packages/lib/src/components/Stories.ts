@@ -88,18 +88,25 @@ export default defineComponent({
       this.paused = !this.paused
     },
 
-    pause() {
+    pause(anim = true) {
       this.timeline.pause()
 
-      // TODO: delay and check if is still paused
-      fadeOut(this.$refs.timeline as HTMLElement)
-      fadeOut(this.$refs.header as HTMLElement)
+      if (anim) {
+
+
+        // TODO: delay and check if is still paused
+        fadeOut(this.$refs.timeline as HTMLElement)
+        fadeOut(this.$refs.header as HTMLElement)
+      }
     },
 
-    play() {
+    play(anim = true) {
+
       this.timeline.play()
-      fadeIn(this.$refs.timeline as HTMLElement)
-      fadeIn(this.$refs.header as HTMLElement)
+      if (anim) {
+        fadeIn(this.$refs.timeline as HTMLElement)
+        fadeIn(this.$refs.header as HTMLElement)
+      }
     }
   },
   mounted() {
@@ -141,15 +148,26 @@ export default defineComponent({
     const story = this.items[this.index]
 
     // story
-    const onPlay = () => {
+    const onAction = (action: string, data?: any) => {
+
+      switch (action) {
+        case 'play':
+          this.play(false)
+          break
+        case 'pause':
+          this.pause(false)
+          break
+        case 'duration':
+          const duration = data as number
+          // TODO jibo divertiti
+          console.log(duration)
+          break
+        default:
+          console.log(action, data)
+      }
 
     }
 
-    const onVideoDuration = (duration: number) => {
-
-      // TODO jibo divertiti
-      console.log(duration)
-    }
 
     // stories event handlers
     const mouseDown = (e: MouseEvent | TouchEvent) => {
@@ -181,7 +199,7 @@ export default defineComponent({
 
 
     const renderProps =
-      { story, onPlay, isPaused: this.paused, onVideoDuration }
+      { story, onAction, isPaused: this.paused }
 
     const header = this.$slots.header
 
