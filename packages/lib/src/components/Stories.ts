@@ -49,6 +49,7 @@ export default defineComponent({
       index: this.currentIndex,
       timeline: timeline,
       paused: false,
+      mouseDownTimeout: undefined as NodeJS.Timeout | undefined
     };
   },
   computed: {
@@ -131,19 +132,25 @@ export default defineComponent({
     const story = this.items[this.index]
 
     // story
-    const onPlay = (who: any) => {
+    const onPlay = () => {
       this.timeline.play();
+    }
+
+    const onVideoDuration = (duration: number) => {
+
+      // TODO jibo divertiti
+      console.log(duration)
     }
 
     // stories event handlers
     const mouseDown = (e: MouseEvent | TouchEvent) => {
       e.preventDefault()
-      this.togglePause()
+      this.mouseDownTimeout = setTimeout(() => this.togglePause(), 150)
     }
 
     const mouseUp = (e: MouseEvent | TouchEvent) => {
       e.preventDefault()
-
+      this.mouseDownTimeout && clearTimeout(this.mouseDownTimeout)
       if (this.paused) this.paused = false
       else {
         const x = getX(e)
@@ -163,12 +170,10 @@ export default defineComponent({
       onMouseup: mouseUp
     }
 
-
-
     return h('div', { ref: 'stories', class: 'stories', ...storiesEvents }, [
       h('div', { class: 'timeline', ref: 'timeline' }, slices),
       h('div', { class: 'header', ref: 'header' }, this.$slots.header),
-      render({ story, onPlay, isPaused: this.paused })
+      render({ story, onPlay, isPaused: this.paused, onVideoDuration })
     ])
   }
 });

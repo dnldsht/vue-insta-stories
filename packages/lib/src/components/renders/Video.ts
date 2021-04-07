@@ -43,8 +43,8 @@ export default defineComponent({
     }
 
     const onLoadeddata = async () => {
+      this.$emit('videoDuration', this.vid.duration * 1000)
 
-      console.log(this.vid.duration)
       try {
         await this.vid.play()
       } catch (e) {

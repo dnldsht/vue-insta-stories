@@ -34,6 +34,18 @@
         return __assign.apply(this, arguments);
     };
 
+    function __rest(s, e) {
+        var t = {};
+        for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+            t[p] = s[p];
+        if (s != null && typeof Object.getOwnPropertySymbols === "function")
+            for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+                if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                    t[p[i]] = s[p[i]];
+            }
+        return t;
+    }
+
     function __awaiter(thisArg, _arguments, P, generator) {
         function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
         return new (P || (P = Promise))(function (resolve, reject) {
@@ -141,7 +153,7 @@
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            console.log(this.vid.duration);
+                            this.$emit('videoDuration', this.vid.duration * 1000);
                             _a.label = 1;
                         case 1:
                             _a.trys.push([1, 3, , 4]);
@@ -178,8 +190,8 @@
         }
     };
     var render = function (_a) {
-        var story = _a.story, onPlay = _a.onPlay, isPaused = _a.isPaused;
-        return vueDemi.h(getRender(story.type), { story: story, onPlay: onPlay, isPaused: isPaused });
+        var story = _a.story, otherProps = __rest(_a, ["story"]);
+        return vueDemi.h(getRender(story.type), __assign({ story: story }, otherProps));
     };
 
     var fadeOut = function (el) {
@@ -282,6 +294,7 @@
                 index: this.currentIndex,
                 timeline: timeline,
                 paused: false,
+                mouseDownTimeout: undefined
             };
         },
         computed: {
@@ -354,15 +367,19 @@
             var _this = this;
             var slices = this.items.map(function (_, key) { return vueDemi.h('div', { class: 'slice', key: key }, vueDemi.h('div', { class: 'progress' })); });
             var story = this.items[this.index];
-            var onPlay = function (who) {
+            var onPlay = function () {
                 _this.timeline.play();
+            };
+            var onVideoDuration = function (duration) {
+                console.log(duration);
             };
             var mouseDown = function (e) {
                 e.preventDefault();
-                _this.togglePause();
+                _this.mouseDownTimeout = setTimeout(function () { return _this.togglePause(); }, 150);
             };
             var mouseUp = function (e) {
                 e.preventDefault();
+                _this.mouseDownTimeout && clearTimeout(_this.mouseDownTimeout);
                 if (_this.paused)
                     _this.paused = false;
                 else {
@@ -385,7 +402,7 @@
             return vueDemi.h('div', __assign({ ref: 'stories', class: 'stories' }, storiesEvents), [
                 vueDemi.h('div', { class: 'timeline', ref: 'timeline' }, slices),
                 vueDemi.h('div', { class: 'header', ref: 'header' }, this.$slots.header),
-                render({ story: story, onPlay: onPlay, isPaused: this.paused })
+                render({ story: story, onPlay: onPlay, isPaused: this.paused, onVideoDuration: onVideoDuration })
             ]);
         }
     });

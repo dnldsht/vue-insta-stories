@@ -17,12 +17,13 @@ const getRender = (type: string) => {
 
 interface RenderProps {
   story: StoryOptions
-  onPlay: (who: any) => void
+  onPlay: () => void
+  onVideoDuration: (duration: number) => void
   isPaused: boolean
 }
 
-const render = ({ story, onPlay, isPaused }: RenderProps) => {
-  return h(getRender(story.type), { story, onPlay, isPaused })
+const render = ({ story, ...otherProps }: RenderProps) => {
+  return h(getRender(story.type), { story, ...otherProps })
 }
 
 export default render
