@@ -182,9 +182,19 @@ var getRender = function (type) {
             throw new Error("Did not find a render for type " + type);
     }
 };
-var render = function (_a) {
+var render = function (_a, $slots) {
     var story = _a.story, otherProps = __rest(_a, ["story"]);
-    return h(getRender(story.type), __assign({ story: story }, otherProps));
+    var type = story.type, template = story.template;
+    if (type === 'custom') {
+        console.log(story);
+        if (!template)
+            throw new Error("if you use custom type you must define `template`");
+        var slot = $slots[template];
+        if (!slot)
+            throw new Error("unable to find the template '" + template + "'");
+        return slot(__assign({ story: story }, otherProps));
+    }
+    return h(getRender(type), __assign({ story: story }, otherProps));
 };
 
 var fadeOut = function (el) {
@@ -311,6 +321,7 @@ var Stories = defineComponent({
                 return tot + duration;
             }, 0);
             this.timeline.seek(offset);
+            this.timeline.play();
         },
         nextSlide: function () {
             if (this.index < this.stories.length - 1) {
@@ -362,13 +373,13 @@ var Stories = defineComponent({
                 },
             });
         });
+        this.timeline.play();
     },
     render: function () {
         var _this = this;
         var slices = this.items.map(function (_, key) { return h('div', { class: 'slice', key: key }, h('div', { class: 'progress' })); });
         var story = this.items[this.index];
         var onPlay = function () {
-            _this.timeline.play();
         };
         var onVideoDuration = function (duration) {
             console.log(duration);
@@ -399,10 +410,12 @@ var Stories = defineComponent({
             onMousedown: mouseDown,
             onMouseup: mouseUp
         };
+        var renderProps = { story: story, onPlay: onPlay, isPaused: this.paused, onVideoDuration: onVideoDuration };
+        var header = this.$slots.header;
         return h('div', __assign({ ref: 'stories', class: 'stories' }, storiesEvents), [
             h('div', { class: 'timeline', ref: 'timeline' }, slices),
-            h('div', { class: 'header', ref: 'header' }, this.$slots.header),
-            render({ story: story, onPlay: onPlay, isPaused: this.paused, onVideoDuration: onVideoDuration })
+            header ? h('div', { class: 'header', ref: 'header' }, header()) : null,
+            render(renderProps, this.$slots)
         ]);
     }
 });

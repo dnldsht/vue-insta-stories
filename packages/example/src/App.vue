@@ -3,7 +3,12 @@
     <!-- <Stories v-bind="options">
         <intro-slide class="flex-grow"></intro-slide>
       </Stories> -->
-    <Stories :stories="stories" :interval="3000" />
+    <Stories :stories="stories" :interval="3000">
+      <template #header><story-header /></template>
+      <template #intro>
+        <intro-slide class="flex-grow"></intro-slide>
+      </template>
+    </Stories>
   </div>
 </template>
 
@@ -28,6 +33,7 @@ export default defineComponent({
     },
     currentIndex: 3,
     stories: [
+      { type: "custom", template: "intro" },
       "https://picsum.photos/350/200/",
       {
         url:

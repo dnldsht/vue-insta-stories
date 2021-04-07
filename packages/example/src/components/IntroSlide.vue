@@ -1,5 +1,5 @@
 <template>
-  <div class="bg-green-500 text-lg text-white p-4 pt-10">
+  <div class="bg-green-500 text-lg text-white p-4 pt-20">
     <h1 class="text-5xl font-semibold">vue insta stories</h1>
     <p class="mt-4">Renders vue components right into your stories.</p>
     <p class="mt-4">Possibilities are endless, here is an image!</p>

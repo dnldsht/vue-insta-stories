@@ -70,6 +70,7 @@ export default defineComponent({
       this.timeline.pause();
       const offset = this.items.slice(0, this.index).reduce((tot, { duration }) => tot + duration, 0)
       this.timeline.seek(offset);
+      this.timeline.play();
     },
     nextSlide() {
       if (this.index < this.stories.length - 1) {
@@ -131,6 +132,8 @@ export default defineComponent({
         },
       });
     });
+
+    this.timeline.play();
   },
 
   render() {
@@ -139,7 +142,7 @@ export default defineComponent({
 
     // story
     const onPlay = () => {
-      this.timeline.play();
+
     }
 
     const onVideoDuration = (duration: number) => {
@@ -176,10 +179,16 @@ export default defineComponent({
       onMouseup: mouseUp
     }
 
+
+    const renderProps =
+      { story, onPlay, isPaused: this.paused, onVideoDuration }
+
+    const header = this.$slots.header
+
     return h('div', { ref: 'stories', class: 'stories', ...storiesEvents }, [
       h('div', { class: 'timeline', ref: 'timeline' }, slices),
-      h('div', { class: 'header', ref: 'header' }, this.$slots.header),
-      render({ story, onPlay, isPaused: this.paused, onVideoDuration })
+      header ? h('div', { class: 'header', ref: 'header' }, header()) : null,
+      render(renderProps, this.$slots)
     ])
   }
 });

@@ -7,7 +7,7 @@
     >
       💎
     </div>
-    <div class="font-bold ml-2">{{ options.label }}</div>
+    <div class="font-bold text-white ml-2">{{ options.label }}</div>
   </div>
 </template>
 <script>

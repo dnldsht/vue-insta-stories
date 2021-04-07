@@ -189,9 +189,19 @@
                 throw new Error("Did not find a render for type " + type);
         }
     };
-    var render = function (_a) {
+    var render = function (_a, $slots) {
         var story = _a.story, otherProps = __rest(_a, ["story"]);
-        return vueDemi.h(getRender(story.type), __assign({ story: story }, otherProps));
+        var type = story.type, template = story.template;
+        if (type === 'custom') {
+            console.log(story);
+            if (!template)
+                throw new Error("if you use custom type you must define `template`");
+            var slot = $slots[template];
+            if (!slot)
+                throw new Error("unable to find the template '" + template + "'");
+            return slot(__assign({ story: story }, otherProps));
+        }
+        return vueDemi.h(getRender(type), __assign({ story: story }, otherProps));
     };
 
     var fadeOut = function (el) {
@@ -318,6 +328,7 @@
                     return tot + duration;
                 }, 0);
                 this.timeline.seek(offset);
+                this.timeline.play();
             },
             nextSlide: function () {
                 if (this.index < this.stories.length - 1) {
@@ -369,13 +380,13 @@
                     },
                 });
             });
+            this.timeline.play();
         },
         render: function () {
             var _this = this;
             var slices = this.items.map(function (_, key) { return vueDemi.h('div', { class: 'slice', key: key }, vueDemi.h('div', { class: 'progress' })); });
             var story = this.items[this.index];
             var onPlay = function () {
-                _this.timeline.play();
             };
             var onVideoDuration = function (duration) {
                 console.log(duration);
@@ -406,10 +417,12 @@
                 onMousedown: mouseDown,
                 onMouseup: mouseUp
             };
+            var renderProps = { story: story, onPlay: onPlay, isPaused: this.paused, onVideoDuration: onVideoDuration };
+            var header = this.$slots.header;
             return vueDemi.h('div', __assign({ ref: 'stories', class: 'stories' }, storiesEvents), [
                 vueDemi.h('div', { class: 'timeline', ref: 'timeline' }, slices),
-                vueDemi.h('div', { class: 'header', ref: 'header' }, this.$slots.header),
-                render({ story: story, onPlay: onPlay, isPaused: this.paused, onVideoDuration: onVideoDuration })
+                header ? vueDemi.h('div', { class: 'header', ref: 'header' }, header()) : null,
+                render(renderProps, this.$slots)
             ]);
         }
     });

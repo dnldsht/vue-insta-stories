@@ -1,5 +1,5 @@
 import { StoryOptions } from 'src/types'
-import { h } from 'vue-demi'
+import { h, Slots } from 'vue-demi'
 import Image from './Image'
 import Video from './Video'
 // export { Image }
@@ -22,8 +22,19 @@ interface RenderProps {
   isPaused: boolean
 }
 
-const render = ({ story, ...otherProps }: RenderProps) => {
-  return h(getRender(story.type), { story, ...otherProps })
+const render = ({ story, ...otherProps }: RenderProps, $slots: Slots) => {
+
+  const { type, template } = story
+  if (type === 'custom') {
+    console.log(story)
+    if (!template) throw new Error("if you use custom type you must define `template`")
+    const slot = $slots[template]
+    if (!slot) throw new Error(`unable to find the template '${template}'`)
+
+    return slot({ story, ...otherProps })
+
+  }
+  return h(getRender(type), { story, ...otherProps })
 }
 
 export default render
