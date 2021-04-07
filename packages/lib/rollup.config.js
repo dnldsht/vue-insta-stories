@@ -3,7 +3,7 @@ import typescript from '@rollup/plugin-typescript';
 import PostCSS from 'rollup-plugin-postcss'
 import pkg from './package.json'
 
-const external = ['animejs', 'hammerjs', '"vue-demi"']
+const external = ['animejs', 'vue-demi']
 
 const plugins = [
   typescript(),
@@ -33,7 +33,6 @@ export default [
         sourcemap: true,
         globals: {
           'animejs': 'anime',
-          'hammerjs': 'Hammer',
           'vue-demi': 'VueDemi',
         },
       }

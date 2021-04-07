@@ -6,7 +6,6 @@ import { StoryOptions } from '../types';
 import { fadeOut, fadeIn, getX } from "../utils";
 
 import '../main.css'
-import { defaults } from 'hammerjs';
 
 export default defineComponent({
   name: "Stories",
