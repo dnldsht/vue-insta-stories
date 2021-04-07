@@ -15,8 +15,14 @@ const getRender = (type: string) => {
   }
 }
 
-const render = (item: StoryOptions) => {
-  return h(getRender(item.type), { item })
+interface RenderProps {
+  story: StoryOptions
+  onPlay: (who: any) => void
+  isPaused: boolean
+}
+
+const render = ({ story, onPlay, isPaused }: RenderProps) => {
+  return h(getRender(story.type), { story, onPlay, isPaused })
 }
 
 export default render

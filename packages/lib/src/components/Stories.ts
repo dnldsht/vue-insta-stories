@@ -32,6 +32,14 @@ export default defineComponent({
         this.resetSlide();
       },
     },
+    paused: {
+      handler(val) {
+        if (val) {
+          this.timeline.pause()
+        } else
+          this.timeline.play()
+      }
+    }
   },
   data() {
     const timeline = anime.timeline({
@@ -44,6 +52,7 @@ export default defineComponent({
       index: this.currentIndex,
       isActive: false,
       timeline: timeline,
+      paused: false
     };
   },
   computed: {
@@ -52,9 +61,6 @@ export default defineComponent({
         if (typeof i == 'string') return { url: i, type: 'image' }
         else return i
       })
-    },
-    current(): StoryOptions {
-      return this.items[this.index];
     },
   },
   methods: {
@@ -69,7 +75,8 @@ export default defineComponent({
       // Jump to beginning of the slide
       this.timeline.pause();
       this.timeline.seek(this.index * this.interval);
-      this.timeline.play();
+      //this.timeline.pause();
+      // this.timeline.play();
     },
     nextSlide() {
       if (this.index < this.stories.length - 1) {
@@ -137,32 +144,41 @@ export default defineComponent({
     });
 
     this.hammer.on("press", (e) => {
-      this.timeline.pause();
+      this.paused = true
+      // this.timeline.pause();
       // hide
-      fadeOut(this.$el.getElementsByClassName("timeline")[0]);
-      fadeOut(this.$el.getElementsByClassName("header")[0]);
+      //fadeOut(this.$el.getElementsByClassName("timeline")[0]);
+      //fadeOut(this.$el.getElementsByClassName("header")[0]);
       //this.$emit("TIMELINE_PAUSE");
     });
 
     this.hammer.on("pressup tap", (e) => {
-      this.timeline.play();
+      this.paused = false
+      // this.timeline.play();
       //show
-      fadeIn(this.$el.getElementsByClassName("timeline")[0]);
-      fadeIn(this.$el.getElementsByClassName("header")[0]);
+      //fadeIn(this.$el.getElementsByClassName("timeline")[0]);
+      //fadeIn(this.$el.getElementsByClassName("header")[0]);
       //this.$emit("TIMELINE_PLAY");
     });
 
-    this.timeline.seek(this.index * this.interval);
-    this.timeline.play();
+    //this.timeline.seek(this.index * this.interval);
+
   },
 
   render() {
-    const slices = this.stories.map((_, key) => h('div', { class: 'slice', key }, h('div', { class: 'progress' },)))
+    const slices = this.items.map((_, key) => h('div', { class: 'slice', key }, h('div', { class: 'progress' })))
+    const story = this.items[this.index]
 
-    return h('div', { ref: 'stories', class: 'stories' }, [
+    this.timeline.pause();
+    const onPlay = (who: any) => {
+      console.log("play", who)
+      this.timeline.play();
+    }
+
+    return h('div', { ref: 'stories', class: 'stories', onTap: this.tap }, [
       h('div', { class: 'timeline' }, slices),
-      //h('div', { class: 'header' }, this.$slots.header()),
-      render(this.current)
+      h('div', { class: 'header' }, this.$slots.header),
+      render({ story, onPlay, isPaused: this.paused })
     ])
   }
 });

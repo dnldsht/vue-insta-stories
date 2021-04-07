@@ -3,7 +3,7 @@ import { defineComponent, h } from 'vue-demi'
 
 export default defineComponent({
   props: {
-    item: {
+    story: {
       type: Object as () => StoryOptions,
       required: true
     }
@@ -15,6 +15,11 @@ export default defineComponent({
       maxHeight: "100%",
       margin: "auto"
     }
-    return h('img', { src: this.item.url, style })
+
+    const imageLoaded = () => {
+      this.$emit('play', this.story.url)
+    }
+
+    return h('img', { src: this.story.url, style, onLoad: imageLoaded })
   }
 })
