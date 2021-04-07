@@ -26,7 +26,6 @@
   },
   "dependencies": {
     "animejs": "^3.2.1",
-    "hammerjs": "^2.0.8",
     "vue-demi": "^0.7.4"
   },
   "peerDependencies": {

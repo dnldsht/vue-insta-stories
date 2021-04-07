@@ -1,28 +1,5 @@
 import { defineComponent, h } from 'vue-demi';
 import anime from 'animejs';
-import Hammer from 'hammerjs';
-
-var Image = defineComponent({
-    props: {
-        story: {
-            type: Object,
-            required: true
-        }
-    },
-    render: function () {
-        var _this = this;
-        var style = {
-            width: "auto",
-            maxWidth: "100%",
-            maxHeight: "100%",
-            margin: "auto"
-        };
-        var imageLoaded = function () {
-            _this.$emit('play', _this.story.url);
-        };
-        return h('img', { src: this.story.url, style: style, onLoad: imageLoaded });
-    }
-});
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -88,6 +65,28 @@ function __generator(thisArg, body) {
     }
 }
 
+var Image = defineComponent({
+    props: {
+        story: {
+            type: Object,
+            required: true
+        }
+    },
+    render: function () {
+        var _this = this;
+        var style = {
+            width: "auto",
+            maxWidth: "100%",
+            maxHeight: "100%",
+            margin: "auto"
+        };
+        var imageLoaded = function () {
+            _this.$emit('play', _this.story.url);
+        };
+        return h('img', { src: this.story.url, style: style, onLoad: imageLoaded });
+    }
+});
+
 var Video = defineComponent({
     props: {
         story: {
@@ -124,7 +123,7 @@ var Video = defineComponent({
             margin: "auto"
         };
         var videoAttrs = {
-            controls: false,
+            controls: true,
             autoPlay: true,
             playsInline: true,
             muted: this.muted,
@@ -135,12 +134,15 @@ var Video = defineComponent({
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4, this.vid.play()];
+                        console.log(this.vid.duration);
+                        _a.label = 1;
                     case 1:
-                        _a.sent();
-                        return [3, 3];
+                        _a.trys.push([1, 3, , 4]);
+                        return [4, this.vid.play()];
                     case 2:
+                        _a.sent();
+                        return [3, 4];
+                    case 3:
                         _a.sent();
                         this.muted = true;
                         this.$nextTick(function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
@@ -149,15 +151,12 @@ var Video = defineComponent({
                                 case 1: return [2, _a.sent()];
                             }
                         }); }); });
-                        return [3, 3];
-                    case 3: return [2];
+                        return [3, 4];
+                    case 4: return [2];
                 }
             });
         }); };
-        var onPlaying = function () {
-            console.log("onPlaying");
-        };
-        return h('video', __assign(__assign({ src: this.story.url, ref: "vid" }, videoAttrs), { style: style, onPlaying: onPlaying, onLoadeddata: onLoadeddata }));
+        return h('video', __assign(__assign({ src: this.story.url, ref: "vid" }, videoAttrs), { style: style, onLoadeddata: onLoadeddata }));
     }
 });
 
@@ -174,6 +173,33 @@ var getRender = function (type) {
 var render = function (_a) {
     var story = _a.story, onPlay = _a.onPlay, isPaused = _a.isPaused;
     return h(getRender(story.type), { story: story, onPlay: onPlay, isPaused: isPaused });
+};
+
+var fadeOut = function (el) {
+    el.animate([
+        { opacity: 1 },
+        { opacity: 0 }
+    ], {
+        duration: 200,
+        fill: 'forwards',
+    });
+};
+var fadeIn = function (el) {
+    el.animate([
+        { opacity: 0 },
+        { opacity: 1 }
+    ], {
+        duration: 200,
+        fill: 'forwards',
+    });
+};
+
+var getX = function (e) {
+    var _a;
+    if (e instanceof MouseEvent)
+        return e.clientX;
+    var touch = (_a = e.touches[0]) !== null && _a !== void 0 ? _a : e.changedTouches[0];
+    return touch.clientX;
 };
 
 function styleInject(css, ref) {
@@ -232,11 +258,10 @@ var Stories = defineComponent({
         },
         paused: {
             handler: function (val) {
-                if (val) {
-                    this.timeline.pause();
-                }
+                if (val)
+                    this.pause();
                 else
-                    this.timeline.play();
+                    this.play();
             }
         }
     },
@@ -248,9 +273,8 @@ var Stories = defineComponent({
         });
         return {
             index: this.currentIndex,
-            isActive: false,
             timeline: timeline,
-            paused: false
+            paused: false,
         };
     },
     computed: {
@@ -264,12 +288,6 @@ var Stories = defineComponent({
         },
     },
     methods: {
-        activate: function () {
-            this.resetSlide();
-        },
-        deactivate: function () {
-            this.timeline.pause();
-        },
         resetSlide: function () {
             this.timeline.pause();
             this.timeline.seek(this.index * this.interval);
@@ -286,16 +304,19 @@ var Stories = defineComponent({
                 this.resetSlide();
             }
         },
-        tap: function (e) {
-            var x = e.gesture.srcEvent.x;
-            var t = window.innerWidth / 3;
-            if (x > t) {
-                this.nextSlide();
-            }
-            else {
-                this.previousSlide();
-            }
+        togglePause: function () {
+            this.paused = !this.paused;
         },
+        pause: function () {
+            this.timeline.pause();
+            fadeOut(this.$refs.timeline);
+            fadeOut(this.$refs.header);
+        },
+        play: function () {
+            this.timeline.play();
+            fadeIn(this.$refs.timeline);
+            fadeIn(this.$refs.header);
+        }
     },
     mounted: function () {
         var _this = this;
@@ -321,32 +342,42 @@ var Stories = defineComponent({
                 },
             });
         });
-        this.hammer = new Hammer.Manager(this.$refs.stories, {
-            domEvents: true,
-            recognizers: [
-                [Hammer.Tap],
-                [Hammer.Press, { time: 1, threshold: 1000000 }],
-            ],
-        });
-        this.hammer.on("press", function (e) {
-            _this.paused = true;
-        });
-        this.hammer.on("pressup tap", function (e) {
-            _this.paused = false;
-        });
     },
     render: function () {
         var _this = this;
         var slices = this.items.map(function (_, key) { return h('div', { class: 'slice', key: key }, h('div', { class: 'progress' })); });
         var story = this.items[this.index];
-        this.timeline.pause();
         var onPlay = function (who) {
-            console.log("play", who);
             _this.timeline.play();
         };
-        return h('div', { ref: 'stories', class: 'stories', onTap: this.tap }, [
-            h('div', { class: 'timeline' }, slices),
-            h('div', { class: 'header' }, this.$slots.header),
+        var mouseDown = function (e) {
+            e.preventDefault();
+            _this.togglePause();
+        };
+        var mouseUp = function (e) {
+            e.preventDefault();
+            if (_this.paused)
+                _this.paused = false;
+            else {
+                var x = getX(e);
+                var t = window.innerWidth / 3;
+                if (x > t) {
+                    _this.nextSlide();
+                }
+                else {
+                    _this.previousSlide();
+                }
+            }
+        };
+        var storiesEvents = {
+            onTouchstart: mouseDown,
+            onTouchend: mouseUp,
+            onMousedown: mouseDown,
+            onMouseup: mouseUp
+        };
+        return h('div', __assign({ ref: 'stories', class: 'stories' }, storiesEvents), [
+            h('div', { class: 'timeline', ref: 'timeline' }, slices),
+            h('div', { class: 'header', ref: 'header' }, this.$slots.header),
             render({ story: story, onPlay: onPlay, isPaused: this.paused })
         ]);
     }

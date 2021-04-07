@@ -1,10 +1,9 @@
 import { defineComponent, h } from 'vue-demi'
 import anime from "animejs";
-import Hammer from "hammerjs";
 import render from './renders'
 
 import { StoryOptions } from '../types';
-import { fadeOut, fadeIn } from "../utils";
+import { fadeOut, fadeIn, getX } from "../utils";
 
 import '../main.css'
 
@@ -34,10 +33,8 @@ export default defineComponent({
     },
     paused: {
       handler(val) {
-        if (val) {
-          this.timeline.pause()
-        } else
-          this.timeline.play()
+        if (val) this.pause()
+        else this.play()
       }
     }
   },
@@ -50,9 +47,8 @@ export default defineComponent({
 
     return {
       index: this.currentIndex,
-      isActive: false,
       timeline: timeline,
-      paused: false
+      paused: false,
     };
   },
   computed: {
@@ -64,19 +60,9 @@ export default defineComponent({
     },
   },
   methods: {
-    activate() {
-      // Start timer
-      this.resetSlide();
-    },
-    deactivate() {
-      this.timeline.pause();
-    },
     resetSlide() {
-      // Jump to beginning of the slide
       this.timeline.pause();
       this.timeline.seek(this.index * this.interval);
-      //this.timeline.pause();
-      // this.timeline.play();
     },
     nextSlide() {
       if (this.index < this.stories.length - 1) {
@@ -90,17 +76,23 @@ export default defineComponent({
         this.resetSlide();
       }
     },
-
-    tap(e) {
-      const x = e.gesture.srcEvent.x;
-      const t = window.innerWidth / 3;
-
-      if (x > t) {
-        this.nextSlide();
-      } else {
-        this.previousSlide();
-      }
+    togglePause() {
+      this.paused = !this.paused
     },
+
+    pause() {
+      this.timeline.pause()
+
+      // TODO: delay and check if is still paused
+      fadeOut(this.$refs.timeline as HTMLElement)
+      fadeOut(this.$refs.header as HTMLElement)
+    },
+
+    play() {
+      this.timeline.play()
+      fadeIn(this.$refs.timeline as HTMLElement)
+      fadeIn(this.$refs.header as HTMLElement)
+    }
   },
   mounted() {
 
@@ -132,52 +124,50 @@ export default defineComponent({
         },
       });
     });
-
-    this.hammer = new Hammer.Manager(this.$refs.stories, {
-      domEvents: true,
-      recognizers: [
-        // used as @tap to support stopPropagation
-        [Hammer.Tap],
-
-        [Hammer.Press, { time: 1, threshold: 1000000 }],
-      ],
-    });
-
-    this.hammer.on("press", (e) => {
-      this.paused = true
-      // this.timeline.pause();
-      // hide
-      //fadeOut(this.$el.getElementsByClassName("timeline")[0]);
-      //fadeOut(this.$el.getElementsByClassName("header")[0]);
-      //this.$emit("TIMELINE_PAUSE");
-    });
-
-    this.hammer.on("pressup tap", (e) => {
-      this.paused = false
-      // this.timeline.play();
-      //show
-      //fadeIn(this.$el.getElementsByClassName("timeline")[0]);
-      //fadeIn(this.$el.getElementsByClassName("header")[0]);
-      //this.$emit("TIMELINE_PLAY");
-    });
-
-    //this.timeline.seek(this.index * this.interval);
-
   },
 
   render() {
     const slices = this.items.map((_, key) => h('div', { class: 'slice', key }, h('div', { class: 'progress' })))
     const story = this.items[this.index]
 
-    this.timeline.pause();
+    // story
     const onPlay = (who: any) => {
-      console.log("play", who)
       this.timeline.play();
     }
 
-    return h('div', { ref: 'stories', class: 'stories', onTap: this.tap }, [
-      h('div', { class: 'timeline' }, slices),
-      h('div', { class: 'header' }, this.$slots.header),
+    // stories event handlers
+    const mouseDown = (e: MouseEvent | TouchEvent) => {
+      e.preventDefault()
+      this.togglePause()
+    }
+
+    const mouseUp = (e: MouseEvent | TouchEvent) => {
+      e.preventDefault()
+
+      if (this.paused) this.paused = false
+      else {
+        const x = getX(e)
+        const t = window.innerWidth / 3;
+        if (x > t) {
+          this.nextSlide();
+        } else {
+          this.previousSlide();
+        }
+      }
+    }
+
+    const storiesEvents = {
+      onTouchstart: mouseDown,
+      onTouchend: mouseUp,
+      onMousedown: mouseDown,
+      onMouseup: mouseUp
+    }
+
+
+
+    return h('div', { ref: 'stories', class: 'stories', ...storiesEvents }, [
+      h('div', { class: 'timeline', ref: 'timeline' }, slices),
+      h('div', { class: 'header', ref: 'header' }, this.$slots.header),
       render({ story, onPlay, isPaused: this.paused })
     ])
   }

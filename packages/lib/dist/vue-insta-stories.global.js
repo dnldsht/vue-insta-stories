@@ -1,35 +1,12 @@
 (function (global, factory) {
-    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue-demi'), require('animejs'), require('hammerjs')) :
-    typeof define === 'function' && define.amd ? define(['exports', 'vue-demi', 'animejs', 'hammerjs'], factory) :
-    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.VueInstaStory = {}, global.VueDemi, global.anime, global.Hammer));
-}(this, (function (exports, vueDemi, anime, Hammer) { 'use strict';
+    typeof exports === 'object' && typeof module !== 'undefined' ? factory(exports, require('vue-demi'), require('animejs')) :
+    typeof define === 'function' && define.amd ? define(['exports', 'vue-demi', 'animejs'], factory) :
+    (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.VueInstaStory = {}, global.VueDemi, global.anime));
+}(this, (function (exports, vueDemi, anime) { 'use strict';
 
     function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
 
     var anime__default = /*#__PURE__*/_interopDefaultLegacy(anime);
-    var Hammer__default = /*#__PURE__*/_interopDefaultLegacy(Hammer);
-
-    var Image = vueDemi.defineComponent({
-        props: {
-            story: {
-                type: Object,
-                required: true
-            }
-        },
-        render: function () {
-            var _this = this;
-            var style = {
-                width: "auto",
-                maxWidth: "100%",
-                maxHeight: "100%",
-                margin: "auto"
-            };
-            var imageLoaded = function () {
-                _this.$emit('play', _this.story.url);
-            };
-            return vueDemi.h('img', { src: this.story.url, style: style, onLoad: imageLoaded });
-        }
-    });
 
     /*! *****************************************************************************
     Copyright (c) Microsoft Corporation.
@@ -95,6 +72,28 @@
         }
     }
 
+    var Image = vueDemi.defineComponent({
+        props: {
+            story: {
+                type: Object,
+                required: true
+            }
+        },
+        render: function () {
+            var _this = this;
+            var style = {
+                width: "auto",
+                maxWidth: "100%",
+                maxHeight: "100%",
+                margin: "auto"
+            };
+            var imageLoaded = function () {
+                _this.$emit('play', _this.story.url);
+            };
+            return vueDemi.h('img', { src: this.story.url, style: style, onLoad: imageLoaded });
+        }
+    });
+
     var Video = vueDemi.defineComponent({
         props: {
             story: {
@@ -131,7 +130,7 @@
                 margin: "auto"
             };
             var videoAttrs = {
-                controls: false,
+                controls: true,
                 autoPlay: true,
                 playsInline: true,
                 muted: this.muted,
@@ -142,12 +141,15 @@
                 return __generator(this, function (_a) {
                     switch (_a.label) {
                         case 0:
-                            _a.trys.push([0, 2, , 3]);
-                            return [4, this.vid.play()];
+                            console.log(this.vid.duration);
+                            _a.label = 1;
                         case 1:
-                            _a.sent();
-                            return [3, 3];
+                            _a.trys.push([1, 3, , 4]);
+                            return [4, this.vid.play()];
                         case 2:
+                            _a.sent();
+                            return [3, 4];
+                        case 3:
                             _a.sent();
                             this.muted = true;
                             this.$nextTick(function () { return __awaiter(_this, void 0, void 0, function () { return __generator(this, function (_a) {
@@ -156,15 +158,12 @@
                                     case 1: return [2, _a.sent()];
                                 }
                             }); }); });
-                            return [3, 3];
-                        case 3: return [2];
+                            return [3, 4];
+                        case 4: return [2];
                     }
                 });
             }); };
-            var onPlaying = function () {
-                console.log("onPlaying");
-            };
-            return vueDemi.h('video', __assign(__assign({ src: this.story.url, ref: "vid" }, videoAttrs), { style: style, onPlaying: onPlaying, onLoadeddata: onLoadeddata }));
+            return vueDemi.h('video', __assign(__assign({ src: this.story.url, ref: "vid" }, videoAttrs), { style: style, onLoadeddata: onLoadeddata }));
         }
     });
 
@@ -181,6 +180,33 @@
     var render = function (_a) {
         var story = _a.story, onPlay = _a.onPlay, isPaused = _a.isPaused;
         return vueDemi.h(getRender(story.type), { story: story, onPlay: onPlay, isPaused: isPaused });
+    };
+
+    var fadeOut = function (el) {
+        el.animate([
+            { opacity: 1 },
+            { opacity: 0 }
+        ], {
+            duration: 200,
+            fill: 'forwards',
+        });
+    };
+    var fadeIn = function (el) {
+        el.animate([
+            { opacity: 0 },
+            { opacity: 1 }
+        ], {
+            duration: 200,
+            fill: 'forwards',
+        });
+    };
+
+    var getX = function (e) {
+        var _a;
+        if (e instanceof MouseEvent)
+            return e.clientX;
+        var touch = (_a = e.touches[0]) !== null && _a !== void 0 ? _a : e.changedTouches[0];
+        return touch.clientX;
     };
 
     function styleInject(css, ref) {
@@ -239,11 +265,10 @@
             },
             paused: {
                 handler: function (val) {
-                    if (val) {
-                        this.timeline.pause();
-                    }
+                    if (val)
+                        this.pause();
                     else
-                        this.timeline.play();
+                        this.play();
                 }
             }
         },
@@ -255,9 +280,8 @@
             });
             return {
                 index: this.currentIndex,
-                isActive: false,
                 timeline: timeline,
-                paused: false
+                paused: false,
             };
         },
         computed: {
@@ -271,12 +295,6 @@
             },
         },
         methods: {
-            activate: function () {
-                this.resetSlide();
-            },
-            deactivate: function () {
-                this.timeline.pause();
-            },
             resetSlide: function () {
                 this.timeline.pause();
                 this.timeline.seek(this.index * this.interval);
@@ -293,16 +311,19 @@
                     this.resetSlide();
                 }
             },
-            tap: function (e) {
-                var x = e.gesture.srcEvent.x;
-                var t = window.innerWidth / 3;
-                if (x > t) {
-                    this.nextSlide();
-                }
-                else {
-                    this.previousSlide();
-                }
+            togglePause: function () {
+                this.paused = !this.paused;
             },
+            pause: function () {
+                this.timeline.pause();
+                fadeOut(this.$refs.timeline);
+                fadeOut(this.$refs.header);
+            },
+            play: function () {
+                this.timeline.play();
+                fadeIn(this.$refs.timeline);
+                fadeIn(this.$refs.header);
+            }
         },
         mounted: function () {
             var _this = this;
@@ -328,32 +349,42 @@
                     },
                 });
             });
-            this.hammer = new Hammer__default['default'].Manager(this.$refs.stories, {
-                domEvents: true,
-                recognizers: [
-                    [Hammer__default['default'].Tap],
-                    [Hammer__default['default'].Press, { time: 1, threshold: 1000000 }],
-                ],
-            });
-            this.hammer.on("press", function (e) {
-                _this.paused = true;
-            });
-            this.hammer.on("pressup tap", function (e) {
-                _this.paused = false;
-            });
         },
         render: function () {
             var _this = this;
             var slices = this.items.map(function (_, key) { return vueDemi.h('div', { class: 'slice', key: key }, vueDemi.h('div', { class: 'progress' })); });
             var story = this.items[this.index];
-            this.timeline.pause();
             var onPlay = function (who) {
-                console.log("play", who);
                 _this.timeline.play();
             };
-            return vueDemi.h('div', { ref: 'stories', class: 'stories', onTap: this.tap }, [
-                vueDemi.h('div', { class: 'timeline' }, slices),
-                vueDemi.h('div', { class: 'header' }, this.$slots.header),
+            var mouseDown = function (e) {
+                e.preventDefault();
+                _this.togglePause();
+            };
+            var mouseUp = function (e) {
+                e.preventDefault();
+                if (_this.paused)
+                    _this.paused = false;
+                else {
+                    var x = getX(e);
+                    var t = window.innerWidth / 3;
+                    if (x > t) {
+                        _this.nextSlide();
+                    }
+                    else {
+                        _this.previousSlide();
+                    }
+                }
+            };
+            var storiesEvents = {
+                onTouchstart: mouseDown,
+                onTouchend: mouseUp,
+                onMousedown: mouseDown,
+                onMouseup: mouseUp
+            };
+            return vueDemi.h('div', __assign({ ref: 'stories', class: 'stories' }, storiesEvents), [
+                vueDemi.h('div', { class: 'timeline', ref: 'timeline' }, slices),
+                vueDemi.h('div', { class: 'header', ref: 'header' }, this.$slots.header),
                 render({ story: story, onPlay: onPlay, isPaused: this.paused })
             ]);
         }

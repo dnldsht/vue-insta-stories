@@ -35,7 +35,7 @@ export default defineComponent({
     }
 
     const videoAttrs = {
-      controls: false,
+      controls: true,
       autoPlay: true,
       playsInline: true,
       muted: this.muted,
@@ -44,6 +44,7 @@ export default defineComponent({
 
     const onLoadeddata = async () => {
 
+      console.log(this.vid.duration)
       try {
         await this.vid.play()
       } catch (e) {
@@ -53,9 +54,9 @@ export default defineComponent({
       }
     }
 
-    const onPlaying = () => {
-      console.log("onPlaying")
-    }
-    return h('video', { src: this.story.url, ref: "vid", ...videoAttrs, style, onPlaying, onLoadeddata })
+    // const onPlaying = () => {
+    //   console.log("onPlaying")
+    // }
+    return h('video', { src: this.story.url, ref: "vid", ...videoAttrs, style, onLoadeddata })
   }
 })
