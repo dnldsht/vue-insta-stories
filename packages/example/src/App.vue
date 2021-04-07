@@ -1,41 +1,24 @@
 <template>
   <div id="app">
-    <StoriesCollection>
-      <Stories v-bind="options">
+    <!-- <Stories v-bind="options">
         <intro-slide class="flex-grow"></intro-slide>
-      </Stories>
-      <Stories :interval="1000">
-        <template #header>
-          <StoryHeader :options="{ label: 'test' }" />
-          <!--<StoryHeader :options="{custom: true}">💎 
-            <span>with <code>html</code></span>
-          </StoryHeader>
-          -->
-        </template>
-
-        <WithSeeMore v-for="i in 10" :key="i" @action="open">
-          <div class="story" :style="{ background: colors[i % colors.length] }">
-            Story {{ i - 1 }}
-          </div>
-        </WithSeeMore>
-      </Stories>
-    </StoriesCollection>
+      </Stories> -->
+    <Stories :stories="stories" :interval="1000" />
   </div>
 </template>
 
 <script>
-import { Stories, StoriesCollection, WithSeeMore } from "vue-insta-stories";
+import { Stories } from "vue-insta-stories";
 
 import IntroSlide from "./components/IntroSlide.vue";
 import StoryHeader from "./components/StoryHeader.vue";
+import { defineComponent, isVue2 } from "vue-demi";
 
-export default {
+export default defineComponent({
   components: {
-    StoriesCollection,
     Stories,
     IntroSlide,
     StoryHeader,
-    WithSeeMore,
   },
 
   data: () => ({
@@ -44,7 +27,16 @@ export default {
       currentIndex: 0,
     },
     currentIndex: 3,
-    colors: ["#DAF7A6", "#FFC300", "#FF5733"],
+    stories: [
+      "https://picsum.photos/350/200/",
+      "https://picsum.photos/400/201/",
+      "https://picsum.photos/350/202/",
+      {
+        url:
+          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+        type: "video",
+      },
+    ],
   }),
   watch: {
     currentIndex(val) {
@@ -56,7 +48,8 @@ export default {
       console.log("Watch whateve");
     },
   },
-};
+  mounted() {},
+});
 </script>
 <style scoped>
 .story {

@@ -6,6 +6,8 @@
   ],
   "scripts": {
     "dev": "yarn workspace example dev",
-    "lib:watch": "yarn workspace vue-insta-stories run build:watch"
+    "lib:watch": "yarn workspace vue-insta-stories run build:watch",
+    "lib": "yarn workspace vue-insta-stories",
+    "example": "yarn workspace example"
   }
 }

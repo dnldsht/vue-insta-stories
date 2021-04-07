@@ -1,29 +1,12 @@
-import VuePlugin from 'rollup-plugin-vue'
-//import Vue2 from 'rollup-plugin-vue2'
-import PostCSS from 'rollup-plugin-postcss'
-import NodeResolve from '@rollup/plugin-node-resolve'
 
-//const buildVue2 = process.env.VUE2 != undefined
-//
-//const VuePlugin = buildVue2 ? Vue2 : Vue3
+import typescript from '@rollup/plugin-typescript';
+import PostCSS from 'rollup-plugin-postcss'
 import pkg from './package.json'
 
-// if (buildVue2) {
-//   console.log("Building Vue 2")
-// } else {
-//   console.log("Building Vue 3")
-// }
-
-const external = ['animejs', 'hammerjs', 'vue']
+const external = ['animejs', 'hammerjs', '"vue-demi"']
 
 const plugins = [
-  NodeResolve(),
-  VuePlugin({
-    target: 'browser',
-    cssModulesOptions: {
-      generateScopedName: '[local]___[hash:base64:5]',
-    },
-  }),
+  typescript(),
   PostCSS(),
 ]
 
@@ -31,7 +14,7 @@ export default [
   {
     plugins,
     external,
-    input: 'src/index.js',
+    input: 'src/index.ts',
     output: [
       {
         format: 'esm',
@@ -51,7 +34,7 @@ export default [
         globals: {
           'animejs': 'anime',
           'hammerjs': 'Hammer',
-          'vue': 'Vue',
+          'vue-demi': 'VueDemi',
         },
       }
     ]

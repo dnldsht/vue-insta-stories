@@ -1,29 +1,29 @@
 <template>
   <div class="flex items-center">
     <slot v-if="options.custom"></slot>
-    <div v-else
-      class="h-8 w-8 rounded-1 bg-white text-xl flex justify-center items-center shadow-sm">
+    <div
+      v-else
+      class="h-8 w-8 rounded-1 bg-white text-xl flex justify-center items-center shadow-sm"
+    >
       💎
     </div>
-    <div class="font-bold ml-2">{{options.label}}</div>
+    <div class="font-bold ml-2">{{ options.label }}</div>
   </div>
 </template>
 <script>
-
-export default{
+export default {
   name: "Story Header",
   props: {
     options: {
       type: Object,
       required: false,
       default: {
-        lable: '',
+        label: "uneven",
         custom: false,
-      }
-    }
+      },
+    },
   },
-
-}
+};
 </script>
 
 <style>

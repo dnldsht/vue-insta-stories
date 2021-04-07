@@ -1,0 +1,47 @@
+.stories {
+  float: left;
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  position: absolute;
+  z-index: 10;
+  top: 22px;
+  left: 16px;
+}
+
+.timeline {
+  position: absolute;
+  display: flex;
+  flex-grow: 0;
+  width: 100%;
+  background: -webkit-gradient(
+    linear,
+    top,
+    bottom,
+    from(rgba(0, 0, 0, 0.2)),
+    to(rgba(0, 0, 0, 0))
+  );
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));
+  padding-bottom: 8px; /* To add more space for gradient */
+  z-index: 10;
+}
+
+.timeline > .slice {
+  background: rgba(255, 255, 255, 0.5);
+  height: 2px;
+  border-radius: 2px;
+  margin: 6px 3px;
+  width: 100%;
+}
+
+.timeline > .slice > .progress {
+  background: #fff;
+  height: 2px;
+  border-radius: 2px;
+  width: 0%;
+}
