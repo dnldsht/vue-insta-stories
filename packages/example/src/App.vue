@@ -3,7 +3,7 @@
     <!-- <Stories v-bind="options">
         <intro-slide class="flex-grow"></intro-slide>
       </Stories> -->
-    <Stories :stories="stories" :interval="3000">
+    <Stories :stories="stories">
       <template #header><story-header /></template>
       <template #intro>
         <intro-slide class="flex-grow"></intro-slide>
@@ -37,9 +37,8 @@ export default defineComponent({
       "https://picsum.photos/350/200/",
       {
         url:
-          "http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+          "https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4",
         type: "video",
-        duration: 10000,
       },
       "https://picsum.photos/400/201/",
       "https://picsum.photos/350/202/",

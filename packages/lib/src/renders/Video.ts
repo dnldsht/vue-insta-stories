@@ -35,7 +35,7 @@ export default defineComponent({
     }
 
     const videoAttrs = {
-      controls: false,
+      controls: true,
       autoPlay: true,
       playsInline: true,
       muted: this.muted,

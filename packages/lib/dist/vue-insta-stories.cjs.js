@@ -3,11 +3,6 @@
 Object.defineProperty(exports, '__esModule', { value: true });
 
 var vueDemi = require('vue-demi');
-var anime = require('animejs');
-
-function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'default' in e ? e : { 'default': e }; }
-
-var anime__default = /*#__PURE__*/_interopDefaultLegacy(anime);
 
 /*! *****************************************************************************
 Copyright (c) Microsoft Corporation.
@@ -141,7 +136,7 @@ var Video = vueDemi.defineComponent({
             margin: "auto"
         };
         var videoAttrs = {
-            controls: false,
+            controls: true,
             autoPlay: true,
             playsInline: true,
             muted: this.muted,
@@ -196,7 +191,6 @@ var render = function (_a, $slots) {
     var story = _a.story, otherProps = __rest(_a, ["story"]);
     var type = story.type, template = story.template;
     if (type === 'custom') {
-        console.log(story);
         if (!template)
             throw new Error("if you use custom type you must define `template`");
         var slot = $slots[template];
@@ -205,33 +199,6 @@ var render = function (_a, $slots) {
         return slot(__assign({ story: story }, otherProps));
     }
     return vueDemi.h(getRender(type), __assign({ story: story }, otherProps));
-};
-
-var fadeOut = function (el) {
-    el.animate([
-        { opacity: 1 },
-        { opacity: 0 }
-    ], {
-        duration: 200,
-        fill: 'forwards',
-    });
-};
-var fadeIn = function (el) {
-    el.animate([
-        { opacity: 0 },
-        { opacity: 1 }
-    ], {
-        duration: 200,
-        fill: 'forwards',
-    });
-};
-
-var getX = function (e) {
-    var _a;
-    if (e instanceof MouseEvent)
-        return e.clientX;
-    var touch = (_a = e.touches[0]) !== null && _a !== void 0 ? _a : e.changedTouches[0];
-    return touch.clientX;
 };
 
 function styleInject(css, ref) {
@@ -264,6 +231,119 @@ function styleInject(css, ref) {
 var css_248z = ".stories {\n  float: left;\n  position: relative;\n  height: 100vh;\n  width: 100vw;\n  z-index: 1;\n  display: flex;\n  flex-direction: column;\n  background: #111;\n}\n.header {\n  position: absolute;\n  z-index: 10;\n  top: 22px;\n  left: 16px;\n}\n\n.timeline {\n  position: absolute;\n  display: flex;\n  flex-grow: 0;\n  width: 100%;\n  background: -webkit-gradient(\n    linear,\n    top,\n    bottom,\n    from(rgba(0, 0, 0, 0.2)),\n    to(rgba(0, 0, 0, 0))\n  );\n  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0));\n  padding-bottom: 8px; /* To add more space for gradient */\n  z-index: 10;\n}\n\n.timeline > .slice {\n  background: rgba(255, 255, 255, 0.5);\n  height: 2px;\n  border-radius: 2px;\n  margin: 6px 3px;\n  width: 100%;\n}\n\n.timeline > .slice > .progress {\n  background: #fff;\n  height: 2px;\n  border-radius: 2px;\n  width: 0%;\n}";
 styleInject(css_248z);
 
+var Progress = vueDemi.defineComponent({
+    props: {
+        progress: {
+            type: Number,
+            required: true
+        }
+    },
+    render: function () {
+        var style = { width: this.progress + "%" };
+        return vueDemi.h('div', { class: 'slice', }, vueDemi.h('div', { class: 'progress', style: style }));
+    }
+});
+var Timeline = vueDemi.defineComponent({
+    props: {
+        stories: {
+            type: Array,
+            required: true
+        },
+        currentIndex: {
+            type: Number,
+            required: true
+        },
+        isPaused: {
+            type: Boolean,
+            required: true
+        }
+    },
+    data: function () { return ({
+        count: 0,
+        animFrameId: -1
+    }); },
+    watch: {
+        currentIndex: function (val) {
+            this.count = 0;
+            cancelAnimationFrame(this.animFrameId);
+            this.animFrameId = requestAnimationFrame(this.incrementCount);
+        },
+        isPaused: {
+            immediate: true,
+            handler: function (paused) {
+                cancelAnimationFrame(this.animFrameId);
+                if (!paused)
+                    this.animFrameId = requestAnimationFrame(this.incrementCount);
+            }
+        }
+    },
+    computed: {
+        currentStory: function () {
+            return this.stories[this.currentIndex];
+        },
+    },
+    emits: ['storyStart', 'storyEnd', 'allStoriesEnd'],
+    methods: {
+        storyStart: function () {
+            this.$emit('storyStart', this.currentIndex);
+        },
+        storyEnd: function () {
+            this.$emit('storyEnd', this.currentIndex);
+        },
+        allStoriesEnd: function () {
+            this.$emit('allStoriesEnd', this.currentIndex);
+        },
+        incrementCount: function () {
+            if (this.count == 0)
+                this.storyStart();
+            var interval = this.currentStory.duration;
+            this.count = this.count + (100 / ((interval / 1000) * 60));
+            if (this.count < 100)
+                this.animFrameId = requestAnimationFrame(this.incrementCount);
+            else {
+                this.storyEnd();
+                if (this.currentIndex == this.stories.length - 1)
+                    this.allStoriesEnd();
+                cancelAnimationFrame(this.animFrameId);
+            }
+        }
+    },
+    render: function () {
+        var current = this.currentIndex;
+        var count = this.count;
+        return this.stories.map(function (_, i) {
+            var progress = i == current ? count : (i < current ? 100 : 0);
+            var key = i;
+            return vueDemi.h(Progress, { key: key, progress: progress });
+        });
+    }
+});
+
+var fadeOut = function (el) {
+    el.animate([
+        { opacity: 0 }
+    ], {
+        duration: 200,
+        fill: 'forwards',
+    });
+};
+var fadeIn = function (el) {
+    el.animate([
+        { opacity: 1 }
+    ], {
+        duration: 200,
+        fill: 'forwards',
+    });
+};
+
+var getX = function (e) {
+    var _a;
+    if (e instanceof MouseEvent)
+        return e.clientX;
+    var touch = (_a = e.touches[0]) !== null && _a !== void 0 ? _a : e.changedTouches[0];
+    return touch.clientX;
+};
+
 var Stories = vueDemi.defineComponent({
     name: "Stories",
     props: {
@@ -273,7 +353,7 @@ var Stories = vueDemi.defineComponent({
         },
         interval: {
             type: Number,
-            default: 2000,
+            default: 10000,
         },
         currentIndex: {
             type: Number,
@@ -282,9 +362,7 @@ var Stories = vueDemi.defineComponent({
     },
     watch: {
         currentIndex: function (val) {
-            console.log("watch", val);
             this.index = val;
-            this.resetSlide();
         },
         paused: function (val) {
             if (val)
@@ -310,39 +388,22 @@ var Stories = vueDemi.defineComponent({
         }
     },
     data: function () {
-        var timeline = anime__default['default'].timeline({
-            autoplay: false,
-            duration: this.interval,
-            easing: "linear",
-        });
         return {
             index: this.currentIndex,
-            timeline: timeline,
             paused: false,
             mouseDownTimeout: undefined,
             items: []
         };
     },
     methods: {
-        resetSlide: function () {
-            this.timeline.pause();
-            var offset = this.items.slice(0, this.index).reduce(function (tot, _a) {
-                var duration = _a.duration;
-                return tot + duration;
-            }, 0);
-            this.timeline.seek(offset);
-            this.timeline.play();
-        },
         nextSlide: function () {
             if (this.index < this.stories.length - 1) {
                 this.index++;
-                this.resetSlide();
             }
         },
         previousSlide: function () {
             if (this.index > 0) {
                 this.index--;
-                this.resetSlide();
             }
         },
         togglePause: function () {
@@ -350,7 +411,6 @@ var Stories = vueDemi.defineComponent({
         },
         pause: function (anim) {
             if (anim === void 0) { anim = true; }
-            this.timeline.pause();
             if (anim) {
                 fadeOut(this.$refs.timeline);
                 fadeOut(this.$refs.header);
@@ -358,54 +418,43 @@ var Stories = vueDemi.defineComponent({
         },
         play: function (anim) {
             if (anim === void 0) { anim = true; }
-            this.timeline.play();
             if (anim) {
                 fadeIn(this.$refs.timeline);
                 fadeIn(this.$refs.header);
             }
-        }
-    },
-    mounted: function () {
-        var _this = this;
-        var $timeline = this.$el.getElementsByClassName("timeline")[0];
-        this.items.forEach(function (story, index) {
-            var slices = $timeline.getElementsByClassName("slice");
-            _this.timeline.add({
-                targets: slices[index].getElementsByClassName("progress"),
-                duration: story.duration,
-                width: "100%",
-                changeBegin: function () {
-                    _this.index = index;
-                    _this.$emit("onStoryStart", index);
-                    _this.$emit("update:currentIndex", index);
-                },
-                changeComplete: function () {
-                    _this.$emit("onStoryEnd", index);
-                },
-                complete: function () {
-                    if (index === _this.stories.length - 1) {
-                        _this.$emit("onAllStoriesEnd");
-                    }
-                },
-            });
-        });
-        this.timeline.play();
+        },
+        storyStart: function (index) {
+            this.$emit('storyStart', index);
+        },
+        storyEnd: function (index) {
+            this.nextSlide();
+            this.$emit('storyEnd', index);
+        },
+        allStoriesEnd: function () {
+            this.$emit('allStoriesEnd');
+        },
     },
     render: function () {
         var _this = this;
-        var slices = this.items.map(function (_, key) { return vueDemi.h('div', { class: 'slice', key: key }, vueDemi.h('div', { class: 'progress' })); });
         var story = this.items[this.index];
+        var timelineProps = {
+            stories: this.items,
+            currentIndex: this.index,
+            isPaused: this.paused,
+            onStoryStart: this.storyStart,
+            onStoryEnd: this.storyEnd,
+            onAllStoriesEnd: this.allStoriesEnd,
+        };
         var onAction = function (action, data) {
             switch (action) {
                 case 'play':
-                    _this.play(false);
                     break;
                 case 'pause':
                     _this.pause(false);
                     break;
                 case 'duration':
                     var duration = data;
-                    console.log(duration);
+                    _this.items[_this.index].duration = duration;
                     break;
                 default:
                     console.log(action, data);
@@ -440,7 +489,7 @@ var Stories = vueDemi.defineComponent({
         var renderProps = { story: story, onAction: onAction, isPaused: this.paused };
         var header = this.$slots.header;
         return vueDemi.h('div', __assign({ ref: 'stories', class: 'stories' }, storiesEvents), [
-            vueDemi.h('div', { class: 'timeline', ref: 'timeline' }, slices),
+            vueDemi.h('div', { class: 'timeline', ref: 'timeline' }, vueDemi.h(Timeline, timelineProps)),
             header ? vueDemi.h('div', { class: 'header', ref: 'header' }, header()) : null,
             render(renderProps, this.$slots)
         ]);

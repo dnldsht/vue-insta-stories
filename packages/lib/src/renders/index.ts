@@ -25,7 +25,6 @@ const render = ({ story, ...otherProps }: RenderProps, $slots: Slots) => {
 
   const { type, template } = story
   if (type === 'custom') {
-    console.log(story)
     if (!template) throw new Error("if you use custom type you must define `template`")
     const slot = $slots[template]
     if (!slot) throw new Error(`unable to find the template '${template}'`)
