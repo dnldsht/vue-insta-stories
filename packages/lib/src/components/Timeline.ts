@@ -32,11 +32,14 @@ export default defineComponent({
   },
   data: () => ({
     count: 0,
+    startTime: 0,
+    savedTimeStamp: 0,
     animFrameId: -1
   }),
   watch: {
     currentIndex(val) {
       this.count = 0
+      this.startTime = 0
       cancelAnimationFrame(this.animFrameId)
       this.animFrameId = requestAnimationFrame(this.incrementCount)
     },
@@ -67,11 +70,15 @@ export default defineComponent({
     allStoriesEnd() {
       this.$emit('allStoriesEnd', this.currentIndex)
     },
-    incrementCount() {
-
+    incrementCount(timestamp) {
       if (this.count == 0) this.storyStart()
-      const interval = this.currentStory.duration
-      this.count = this.count + (100 / ((interval / 1000) * 60))
+      if (!this.startTime) {
+        this.startTime = timestamp;
+      }
+      const runtime = timestamp - this.startTime;
+      
+      
+      this.count = (runtime / this.currentStory.duration) * 100;
 
       if (this.count < 100)
         this.animFrameId = requestAnimationFrame(this.incrementCount)
@@ -86,7 +93,7 @@ export default defineComponent({
   render() {
     const current = this.currentIndex
     const count = this.count
-
+    console.log("render c: ", count);
     return this.stories.map((_, i) => {
       const progress = i == current ? count : (i < current ? 100 : 0)
       const key = i

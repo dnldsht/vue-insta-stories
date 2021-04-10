@@ -44,7 +44,6 @@ export default defineComponent({
 
     const onLoadeddata = async () => {
       this.$emit('action', 'duration', this.vid.duration * 1000)
-
       try {
         await this.vid.play()
       } catch (e) {

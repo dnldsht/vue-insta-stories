@@ -17,7 +17,7 @@ export default defineComponent({
     },
     interval: {
       type: Number,
-      default: 10000,
+      default: 5000,
     },
     currentIndex: {
       type: Number,
