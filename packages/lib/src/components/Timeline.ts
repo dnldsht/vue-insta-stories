@@ -93,7 +93,6 @@ export default defineComponent({
   render() {
     const current = this.currentIndex
     const count = this.count
-    console.log("render c: ", count);
     return this.stories.map((_, i) => {
       const progress = i == current ? count : (i < current ? 100 : 0)
       const key = i
