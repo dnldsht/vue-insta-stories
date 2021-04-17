@@ -17,20 +17,32 @@ export default defineComponent({
     },
     interval: {
       type: Number,
-      default: 5000,
+      default: 2000,
     },
     currentIndex: {
       type: Number,
       default: 0,
     },
+    isPaused: {
+      type: Boolean,
+      required: false
+    }
   },
+  emits: ['storyStart', 'storyEnd', 'allStoriesEnd', 'update:currentIndex', 'update:isPaused'],
   watch: {
     currentIndex(val) {
       this.index = val;
     },
+    isPaused: {
+      immediate: true,
+      handler(val) {
+        this.paused = val
+      },
+    },
     paused(val) {
       if (val) this.pause()
       else this.play()
+      this.$emit('update:isPaused', val)
     },
     stories: {
       immediate: true,
@@ -70,22 +82,17 @@ export default defineComponent({
     togglePause() {
       this.paused = !this.paused
     },
-    pause(anim = true) {
-      if (anim) {
-        // TODO: delay and check if is still paused
-        fadeOut(this.$refs.timeline as HTMLElement)
-        fadeOut(this.$refs.header as HTMLElement)
-      }
+    pause() {
+      fadeOut(this.$refs.timeline as HTMLElement)
+      fadeOut(this.$refs.header as HTMLElement)
     },
-    play(anim = true) {
-      // this.timeline.play()
-      if (anim) {
-        fadeIn(this.$refs.timeline as HTMLElement)
-        fadeIn(this.$refs.header as HTMLElement)
-      }
+    play() {
+      fadeIn(this.$refs.timeline as HTMLElement)
+      fadeIn(this.$refs.header as HTMLElement)
     },
     storyStart(index: number) {
       this.$emit('storyStart', index)
+      this.$emit('update:currentIndex', index)
     },
     storyEnd(index: number) {
       this.nextSlide()
@@ -114,10 +121,10 @@ export default defineComponent({
 
       switch (action) {
         case 'play':
-          //this.play(false)
+          this.play()
           break
         case 'pause':
-          this.pause(false)
+          this.pause()
           break
         case 'duration':
           const duration = data as number

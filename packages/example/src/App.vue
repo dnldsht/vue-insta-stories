@@ -1,9 +1,10 @@
 <template>
   <div id="app">
+    <!--  -->
     <!-- <Stories v-bind="options">
         <intro-slide class="flex-grow"></intro-slide>
       </Stories> -->
-    <Stories :stories="stories">
+    <Stories :isPaused="false" :stories="stories">
       <template #header><story-header /></template>
       <template #intro>
         <intro-slide class="flex-grow"></intro-slide>
@@ -23,13 +24,13 @@ export default defineComponent({
   components: {
     Stories,
     IntroSlide,
-    StoryHeader,
+    StoryHeader
   },
 
   data: () => ({
     options: {
       interval: 30000,
-      currentIndex: 0,
+      currentIndex: 0
     },
     currentIndex: 3,
     stories: [
@@ -38,23 +39,23 @@ export default defineComponent({
       {
         url:
           "https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4",
-        type: "video",
+        type: "video"
       },
       "https://picsum.photos/400/201/",
-      "https://picsum.photos/350/202/",
-    ],
+      "https://picsum.photos/350/202/"
+    ]
   }),
   watch: {
     currentIndex(val) {
       console.log("watchapp", val);
-    },
+    }
   },
   methods: {
     open() {
       console.log("Watch whateve");
-    },
+    }
   },
-  mounted() {},
+  mounted() {}
 });
 </script>
 <style scoped>

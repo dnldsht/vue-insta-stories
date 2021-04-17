@@ -34,12 +34,16 @@ export default defineComponent({
     count: 0,
     startTime: 0,
     savedTimeStamp: 0,
-    animFrameId: -1
+    deltaPaused: 0,
+    lastPaused: 0,
+    animFrameId: -1,
   }),
   watch: {
-    currentIndex(val) {
+    currentIndex() {
       this.count = 0
+      this.storyStart()
       this.startTime = 0
+      this.deltaPaused = 0
       cancelAnimationFrame(this.animFrameId)
       this.animFrameId = requestAnimationFrame(this.incrementCount)
     },
@@ -47,9 +51,13 @@ export default defineComponent({
       immediate: true,
       handler(paused) {
         cancelAnimationFrame(this.animFrameId)
-
-        if (!paused)
+        if (paused) {
+          this.lastPaused = performance.now()
+        } else {
+          if (this.lastPaused)
+            this.deltaPaused += performance.now() - this.lastPaused
           this.animFrameId = requestAnimationFrame(this.incrementCount)
+        }
       }
     }
   },
@@ -65,19 +73,14 @@ export default defineComponent({
     },
     storyEnd() {
       this.$emit('storyEnd', this.currentIndex)
-
     },
     allStoriesEnd() {
       this.$emit('allStoriesEnd', this.currentIndex)
     },
-    incrementCount(timestamp) {
-      if (this.count == 0) this.storyStart()
-      if (!this.startTime) {
+    incrementCount(timestamp: number) {
+      if (!this.startTime)
         this.startTime = timestamp;
-      }
-      const runtime = timestamp - this.startTime;
-      
-      
+      const runtime = timestamp - this.startTime - this.deltaPaused;
       this.count = (runtime / this.currentStory.duration) * 100;
 
       if (this.count < 100)
