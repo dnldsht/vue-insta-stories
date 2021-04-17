@@ -1,8 +1,3 @@
-## Install
-```bash
-yarn add vue-insta-stories
-```
-
 ## Simple usage
 ```vue
 <template>

@@ -13,7 +13,7 @@ yarn add vue-insta-stories
 ```
 
 ## Usage
-Work in progress documentation can be found [here] (https://github.com/UnevenSoftware/vue-insta-stories/tree/main/packages/lib#readme)
+Work in progress documentation can be found [here](https://github.com/UnevenSoftware/vue-insta-stories/tree/main/packages/lib#readme)
 
 ## Features
 - Works with vue 2/3
