@@ -9,7 +9,7 @@
 
 ## Install
 ```bash
-yarn add vue-insta-stories 
+yarn add vue-insta-stories # work with vue 2/3
 ```
 
 ## Simple usage
@@ -105,7 +105,6 @@ This project was inspired by @kayue [work](https://github.com/kayue/vue-story-ex
 - Timer and timeline on the top
 - Hold to pause current slide
 - Tap to navigate between slides
-- Swipe to navigate between stories
 
 ## License
 MIT - Copyright (c) 2021 Uneven Software
