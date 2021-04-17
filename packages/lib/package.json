@@ -1,6 +1,6 @@
 {
   "name": "vue-insta-stories",
-  "version": "0.0.5",
+  "version": "0.1",
   "description": "Vue component for Instagram stories",
   "keywords": [
     "vue",
@@ -17,8 +17,7 @@
   "unpkg": "dist/vue-insta-stories.global.js",
   "author": "kayue, dnldsht, gilnd",
   "files": [
-    "dist/",
-    "src/Story.vue"
+    "dist/"
   ],
   "scripts": {
     "build": "rollup -c",
