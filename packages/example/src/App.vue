@@ -1,15 +1,48 @@
 <template>
-  <div id="app">
-    <!--  -->
-    <!-- <Stories v-bind="options">
-        <intro-slide class="flex-grow"></intro-slide>
-      </Stories> -->
-    <Stories :isPaused="false" :stories="stories">
-      <template #header><story-header /></template>
-      <template #intro>
-        <intro-slide class="flex-grow"></intro-slide>
-      </template>
-    </Stories>
+  <div
+    class="container py-20 flex flex-col md:flex-row justify-center mx-auto mh-100vh items-center p-5"
+  >
+    <div class="flex flex-col justify-center mb-20 md:(mr-20 mb-0)">
+      <a
+        class="text-5xl font-semibold underline"
+        href="https://github.com/UnevenSoftware/vue-insta-stories"
+        >vue-insta-stories</a
+      >
+      <p class="mt-4">Instagram stories in your vue projects.</p>
+
+      <div class="bg-gray-200 p-3 mt-4 rounded-lg">
+        yarn add vue-insta-stories
+      </div>
+
+      <a
+        class="mt-4 underline"
+        href="https://github.com/UnevenSoftware/vue-insta-stories/tree/main/packages/lib#readme"
+        >Documentation →</a
+      >
+
+      <div class="mt-5">
+        Made with 🖤 by <a href="https://github.com/dnldsht">@dnldsht</a> &
+        <a href="https://github.com/gilnd">@gilnd</a>
+      </div>
+    </div>
+    <div class="md:(h-730px w-420px) flex justify-center items-center">
+      <Stories
+        @onAllStoriesEnd="showStories = false"
+        v-if="showStories"
+        class="absolute inset-0 h-100vh w-100vw md:(h-730px w-420px relative) shadow-lg"
+        :interval="3000"
+        :stories="stories"
+      >
+        <template #header><story-header /></template>
+        <template #intro>
+          <intro-slide class="flex-grow"></intro-slide>
+        </template>
+      </Stories>
+
+      <button v-else @click="showStories = true" class="underline">
+        Start over!
+      </button>
+    </div>
   </div>
 </template>
 
@@ -28,6 +61,7 @@ export default defineComponent({
   },
 
   data: () => ({
+    showStories: true,
     options: {
       interval: 30000,
       currentIndex: 0
@@ -59,6 +93,10 @@ export default defineComponent({
 });
 </script>
 <style scoped>
+.st {
+  width: 420px;
+  height: 730px;
+}
 .story {
   /* Take the rest of the page */
   flex-grow: 1;

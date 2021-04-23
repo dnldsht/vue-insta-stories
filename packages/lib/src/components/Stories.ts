@@ -28,7 +28,7 @@ export default defineComponent({
       required: false
     }
   },
-  emits: ['storyStart', 'storyEnd', 'allStoriesEnd', 'update:currentIndex', 'update:isPaused'],
+  emits: ['onStoryStart', 'onStoryEnd', 'onAllStoriesEnd', 'update:currentIndex', 'update:isPaused'],
   watch: {
     currentIndex(val) {
       this.index = val;
@@ -91,15 +91,15 @@ export default defineComponent({
       fadeIn(this.$refs.header as HTMLElement)
     },
     storyStart(index: number) {
-      this.$emit('storyStart', index)
+      this.$emit('onStoryStart', index)
       this.$emit('update:currentIndex', index)
     },
     storyEnd(index: number) {
       this.nextSlide()
-      this.$emit('storyEnd', index)
+      this.$emit('onStoryEnd', index)
     },
     allStoriesEnd() {
-      this.$emit('allStoriesEnd',)
+      this.$emit('onAllStoriesEnd')
     },
   },
 
@@ -148,7 +148,8 @@ export default defineComponent({
       if (this.paused) this.paused = false
       else {
         const x = getX(e)
-        const t = window.innerWidth / 3;
+        const { width } = (this.$refs.stories as HTMLElement).getBoundingClientRect()
+        const t = width / 3;
         if (x > t) {
           this.nextSlide();
         } else {
@@ -170,7 +171,7 @@ export default defineComponent({
 
     const header = this.$slots.header
 
-    return h('div', { ref: 'stories', class: 'stories', ...storiesEvents }, [
+    return h('div', { ref: 'stories', class: 'vue-insta-stories', ...storiesEvents }, [
       h('div', { class: 'timeline', ref: 'timeline' }, h(Timeline, timelineProps)),
       header ? h('div', { class: 'header', ref: 'header' }, header()) : null,
       render(renderProps, this.$slots)
