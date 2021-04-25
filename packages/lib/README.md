@@ -42,6 +42,28 @@ export default {
 | `duration` | Optional. Duration for which a story should persist.            |
 | `template` | Optional. Renders story in a different template see more below. |
 
+## Style
+```scss
+/** full screen **/
+.vue-insta-stories-full {
+  position: absolute;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+}
+
+/** in page **/
+.vue-insta-stories-page {
+ position: relative;
+ height: 730px default;
+ width: 420px default;
+}
+```
+if you are using tailwind you can write 
+```html
+<Stories class="absolute top-0 h-100vh w-100vw md:(h-730px w-420px relative)" />
+```
+
 ## With header
 ```vue
 <template>

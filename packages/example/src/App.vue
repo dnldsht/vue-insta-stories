@@ -1,6 +1,6 @@
 <template>
   <div
-    class="container py-20 flex flex-col md:flex-row justify-center mx-auto mh-100vh items-center p-5"
+    class="container py-20 flex flex-col md:flex-row justify-center mx-auto h-100vh items-center p-5"
   >
     <div class="flex flex-col justify-center mb-20 md:(mr-20 mb-0)">
       <a
@@ -29,7 +29,7 @@
       <Stories
         @onAllStoriesEnd="showStories = false"
         v-if="showStories"
-        class="absolute inset-0 h-100vh w-100vw md:(h-730px w-420px relative) shadow-lg"
+        class="absolute top-0 h-100vh w-100vw md:(h-730px w-420px relative) shadow-lg"
         :interval="3000"
         :stories="stories"
       >
