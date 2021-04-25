@@ -1,7 +1,8 @@
 <h1 align="center">vue-insta-stories</h1>
 
 <p align="center">
-  Vue component for Instagram stories
+  Vue component for Instagram stories<br/>
+<a href="https://unevensoftware.github.io/vue-insta-stories" target="__blank"><b>Live demo<b></a>
 </p>
 
 <br/>
