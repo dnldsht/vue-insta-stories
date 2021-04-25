@@ -25,7 +25,7 @@
         @onAllStoriesEnd="showStories = false"
         v-if="showStories"
         class="absolute top-0 h-100vh w-100vw md:(h-730px w-420px relative) shadow-lg"
-        :interval="500"
+        :interval="3000"
         :loop="true"
         :stories="stories">
         <template #header><story-header /></template>
