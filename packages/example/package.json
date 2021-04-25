@@ -10,7 +10,7 @@
   "dependencies": {
     "@vue/composition-api": "^1.0.0-rc.6",
     "vue-demi": "^0.7.4",
-    "vue-insta-stories": "^3.0.0"
+    "vue-insta-stories": "^0.1.1"
   },
   "devDependencies": {
     "@types/animejs": "^3.1.3",
