@@ -28,10 +28,12 @@
     <div class="md:(h-730px w-420px) flex justify-center items-center">
       <Stories
         @onAllStoriesEnd="showStories = false"
+        @onSeeMore="open"
         v-if="showStories"
         class="absolute top-0 h-100vh w-100vw md:(h-730px w-420px relative) shadow-lg"
         :interval="3000"
         :stories="stories"
+        :isPaused="false"
       >
         <template #header><story-header /></template>
         <template #intro>
@@ -68,15 +70,24 @@ export default defineComponent({
     },
     currentIndex: 3,
     stories: [
-      { type: "custom", template: "intro" },
+      {
+        template: "intro"
+      },
       "https://picsum.photos/350/200/",
       {
         url:
           "https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4",
-        type: "video"
+        type: "video",
+        seeMore: { url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" }
       },
       "https://picsum.photos/400/201/",
-      "https://picsum.photos/350/202/"
+      {
+        url: "https://picsum.photos/350/202/",
+        seeMore: {
+          label: "Give us a star 🤍",
+          url: "https://github.com/UnevenSoftware/vue-insta-stories"
+        }
+      }
     ]
   }),
   watch: {
@@ -85,8 +96,10 @@ export default defineComponent({
     }
   },
   methods: {
-    open() {
-      console.log("Watch whateve");
+    open(story) {
+      const { url } = story.seeMore;
+      window.open(url);
+      console.log("Watch whateve", url);
     }
   },
   mounted() {}

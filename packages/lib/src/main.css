@@ -59,3 +59,34 @@
   border-radius: 2px;
   width: 0%;
 }
+
+.see-more-wrapper {
+  flex-grow: 1;
+  display: flex;
+  position: relative;
+}
+
+.see-more-wrapper .see-more {
+  position: absolute;
+  height: 10vh;
+  flex-direction: column;
+  width: 100%;
+  background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2));
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  bottom: 0;
+  z-index: 10;
+}
+
+.see-more-wrapper .see-more-text, .see-more-wrapper .see-more-icon {
+  color: white;
+  letter-spacing: 0.1em;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: opacity 300ms ease-in-out;
+}
+.see-more-wrapper .see-more-text {
+  letter-spacing: 0.1em;
+  margin-bottom: 2.2vh;
+}

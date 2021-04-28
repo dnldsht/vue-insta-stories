@@ -2,6 +2,7 @@ import { defineComponent, h } from 'vue-demi'
 import render from '../renders'
 
 import Timeline from './Timeline'
+import wrapWithSeeMore from './WithSeeMore'
 
 import { StoryOptions } from '../types';
 import { fadeOut, fadeIn, getX } from "../utils";
@@ -28,7 +29,7 @@ export default defineComponent({
       required: false
     }
   },
-  emits: ['onStoryStart', 'onStoryEnd', 'onAllStoriesEnd', 'update:currentIndex', 'update:isPaused'],
+  emits: ['onStoryStart', 'onStoryEnd', 'onAllStoriesEnd', 'update:currentIndex', 'update:isPaused', 'onSeeMore'],
   watch: {
     currentIndex(val) {
       this.index = val;
@@ -165,16 +166,21 @@ export default defineComponent({
       onMouseup: mouseUp
     }
 
+    const onSeeMore = () => {
+      this.paused = true
+      this.$emit('onSeeMore', story)
+    }
 
     const renderProps =
       { story, onAction, isPaused: this.paused }
 
     const header = this.$slots.header
 
+    const storyVnode = render(renderProps, this.$slots)
     return h('div', { ref: 'stories', class: 'vue-insta-stories', ...storiesEvents }, [
       h('div', { class: 'timeline', ref: 'timeline' }, h(Timeline, timelineProps)),
       header ? h('div', { class: 'header', ref: 'header' }, header()) : null,
-      render(renderProps, this.$slots)
+      wrapWithSeeMore(storyVnode, story.seeMore, onSeeMore)
     ])
   }
 });

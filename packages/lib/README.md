@@ -35,12 +35,13 @@ export default {
 | `onAllStoriesEnd` | Function()       | -        | Callback when all stories in the array have ended                  |
 
 ### Story Object
-| Property   | Description                                                     |
-|------------|-----------------------------------------------------------------|
-| `url`      | The url of the resource, image or video.                        |
-| `type`     | Optional. Type of the story. 'image'\|'video'                   |
-| `duration` | Optional. Duration for which a story should persist.            |
-| `template` | Optional. Renders story in a different template see more below. |
+| Property   | Description                                                          |
+|------------|----------------------------------------------------------------------|
+| `url`      | The url of the resource, image or video.                             |
+| `type`     | Optional. Type of the story. `'image' \| 'video'`                    |
+| `duration` | Optional. Duration for which a story should persist.                 |
+| `template` | Optional. Renders story in a different template see more below.      |
+| `seeMore`  | Optional. Enable see more on story (`true \| { label: 'See more!' }` |
 
 ## Style
 ```scss
