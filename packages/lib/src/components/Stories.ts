@@ -27,6 +27,11 @@ export default defineComponent({
     isPaused: {
       type: Boolean,
       required: false
+    },
+    loop: {
+      type: Boolean,
+      defualt: false,
+      required: false,
     }
   },
   emits: ['onStoryStart', 'onStoryEnd', 'onAllStoriesEnd', 'update:currentIndex', 'update:isPaused', 'onSeeMore'],
@@ -73,12 +78,15 @@ export default defineComponent({
     nextSlide() {
       if (this.index < this.stories.length - 1) {
         this.index++;
+      } else if(this.loop){
+        this.index = 0;
       }
     },
     previousSlide() {
-      if (this.index > 0) {
+      if (this.index > 0)
         this.index--;
-      }
+      else if(this.loop)
+         this.index = this.stories.length;
     },
     togglePause() {
       this.paused = !this.paused
@@ -100,7 +108,9 @@ export default defineComponent({
       this.$emit('onStoryEnd', index)
     },
     allStoriesEnd() {
-      this.$emit('onAllStoriesEnd')
+       if(this.loop){
+        this.index = 0;
+      } else this.$emit('onAllStoriesEnd')
     },
   },
 

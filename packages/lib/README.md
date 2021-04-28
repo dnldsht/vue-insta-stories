@@ -28,7 +28,8 @@ export default {
 | `stories`         | [String/Object]  | required | An array of image urls or array of story objects (more info below) |
 | `interval`        | Number           | 2000     | Story duration in milliseconds                                     |
 | `isPaused`        | Boolean          | false    | Toggle the playing state                                           |
-| `currentIndex`    | Number           | 0        | Set the current story index                                        |
+| `loop`            | Boolean          | false    | Loop through stories
+| `currentIndex`    | Number           | 0        | Set the current story index       
 | **Events**        |                  |          |                                                                    |
 | `onStoryStart`    | Function(Number) | -        | Callback when a story starts                                       |
 | `onStoryEnd`      | Function(Number) | -        | Callback when a story ends                                         |

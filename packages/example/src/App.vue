@@ -6,7 +6,8 @@
       <a
         class="text-5xl font-semibold underline"
         href="https://github.com/UnevenSoftware/vue-insta-stories"
-        >vue-insta-stories</a
+      >
+        vue-insta-stories</a
       >
       <p class="mt-4">Instagram stories in your vue projects.</p>
 
@@ -17,7 +18,8 @@
       <a
         class="mt-4 underline"
         href="https://github.com/UnevenSoftware/vue-insta-stories/tree/main/packages/lib#readme"
-        >Documentation →</a
+      >
+        Documentation →</a
       >
 
       <div class="mt-5">
@@ -33,7 +35,7 @@
         class="absolute top-0 h-100vh w-100vw md:(h-730px w-420px relative) shadow-lg"
         :interval="3000"
         :stories="stories"
-        :isPaused="false"
+        :loop="true"
       >
         <template #header><story-header /></template>
         <template #intro>

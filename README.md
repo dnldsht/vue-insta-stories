@@ -19,6 +19,7 @@ Work in progress documentation can be found [here](https://github.com/UnevenSoft
 ## Features
 - Works with vue 2/3
 - Timer and timeline on the top
+- Swipe up to see more
 - Hold to pause current story
 - Tap to navigate between stories
 - Straight forward usage for images & videos
