@@ -80,7 +80,7 @@ export default defineComponent({
         url:
           "https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4",
         type: "video",
-        //seeMore: { url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" }
+        seeMore: { url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" }
       },
       "https://picsum.photos/400/201/",
       {
