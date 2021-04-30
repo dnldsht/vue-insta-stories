@@ -10,7 +10,7 @@
 
     <div
       style="width: 280px"
-      class="mt-4 text-center bg-gray-900 p-4 rounded-lg"
+      class="mt-4 text-center bg-gray-900 p-4 rounded-lg flex flex-col"
     >
       <h1 class="text-lg font-semibold">Ask me anything!</h1>
       <input

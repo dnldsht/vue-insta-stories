@@ -8,6 +8,7 @@
 .vue-insta-stories-full {
   position: absolute;
   height: 100vh;
+  height: -webkit-fill-available;
   width: 100vw;
   left: 0;
   right: 0;

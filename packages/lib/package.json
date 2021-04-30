@@ -15,7 +15,7 @@
   "module": "dist/vue-insta-stories.esm.js",
   "main": "dist/vue-insta-stories.cjs.js",
   "unpkg": "dist/vue-insta-stories.global.js",
-  "author": "kayue, dnldsht, gilnd",
+  "author": "dnldsht, gilnd",
   "files": [
     "dist/"
   ],

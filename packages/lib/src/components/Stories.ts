@@ -78,15 +78,15 @@ export default defineComponent({
     nextSlide() {
       if (this.index < this.stories.length - 1) {
         this.index++;
-      } else if(this.loop){
+      } else if (this.loop) {
         this.index = 0;
       }
     },
     previousSlide() {
       if (this.index > 0)
         this.index--;
-      else if(this.loop)
-         this.index = this.stories.length;
+      else if (this.loop)
+        this.index = this.stories.length;
     },
     togglePause() {
       this.paused = !this.paused
@@ -108,13 +108,14 @@ export default defineComponent({
       this.$emit('onStoryEnd', index)
     },
     allStoriesEnd() {
-       if(this.loop){
+      if (this.loop) {
         this.index = 0;
       } else this.$emit('onAllStoriesEnd')
     },
   },
 
   render() {
+    console.log("weeeeee")
     const story = this.items[this.index]
 
     const timelineProps = {
