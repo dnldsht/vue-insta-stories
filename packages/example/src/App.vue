@@ -32,7 +32,7 @@
         @allStoriesEnd="showStories = false"
         @seeMore="open"
         v-if="showStories"
-        class="absolute top-0 h-100vh w-100vw md:(h-730px w-420px relative) shadow-lg"
+        class="absolute top-0 h-fill w-100vw md:(h-730px w-420px relative) shadow-lg"
         :interval="3000"
         :stories="stories"
         :loop="true"
