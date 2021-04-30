@@ -1,7 +1,10 @@
 import { SeeMoreOptions } from 'src/types';
-import { defineComponent, h, VNode } from 'vue-demi'
+import { defineComponent, VNode } from 'vue-demi'
+
+import h from '../utils/h-demi'
 
 const WithSeeMore = defineComponent({
+  name: "WithSeeMore",
   props: {
     enabled: {
       type: Boolean,
@@ -53,16 +56,16 @@ const WithSeeMore = defineComponent({
     }
 
     const events = {
-      onMouseup: mouseUp,
-      onTouchend: mouseUp,
-      onTouchstart: mouseDown,
-      onMousedown: mouseDown,
-      onTouchmove: touchMove
+      mouseup: mouseUp,
+      touchend: mouseUp,
+      touchstart: mouseDown,
+      mousedown: mouseDown,
+      touchmove: touchMove
     }
     const style = { opacity: this.opacity }
 
     const label = this.label || "See more"
-    const seeMore = h('div', { class: 'see-more', ...events }, [
+    const seeMore = h('div', { class: 'see-more', on: events }, [
       h('span', { class: 'see-more-icon', style }, '^'),
       h('span', { class: 'see-more-text', style }, label)
     ])
@@ -74,11 +77,11 @@ const WithSeeMore = defineComponent({
   },
 })
 
-const wrapWithSeeMore = (storyNode: VNode | VNode[], options?: SeeMoreOptions | boolean, onAction?: Function) => {
+const wrapWithSeeMore = (storyNode: VNode | VNode[], options?: SeeMoreOptions | boolean, action?: Function) => {
   if (!options) return storyNode
 
   const label = options === true ? undefined : options.label
-  return h(WithSeeMore, { label, onAction }, {
+  return h(WithSeeMore, { props: { label }, on: { action } }, {
     default: () => storyNode
   })
 }

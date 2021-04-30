@@ -24,7 +24,7 @@ export default defineComponent({
   }),
   computed: {
     vid(): HTMLVideoElement {
-      return this.$refs.vid as HTMLVideoElement
+      return this.$el as HTMLVideoElement
     }
   },
   render() {
@@ -43,7 +43,8 @@ export default defineComponent({
       'webkit-playsinline': true
     }
 
-    const onLoadeddata = async () => {
+    const loadeddata = async () => {
+
       this.$emit('action', 'duration', this.vid.duration * 1000)
       try {
         await this.vid.play()
@@ -56,7 +57,7 @@ export default defineComponent({
 
     this.$emit('action', 'pause')
 
-    const onPlaying = () => {
+    const playing = () => {
       this.$emit('action', 'play')
     }
 
@@ -67,9 +68,8 @@ export default defineComponent({
         ...videoAttrs
       },
       on: {
-        onLoadeddata, onPlaying
+        loadeddata, playing
       },
-      ref: "vid"
     }
 
     return h('video', params)

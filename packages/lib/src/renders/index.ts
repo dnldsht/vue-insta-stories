@@ -25,8 +25,7 @@ interface RenderProps {
 
 const render = ({ story, isPaused, onAction }: RenderProps, $slots: Slots) => {
 
-
-  const attrs = { props: { story, isPaused }, on: { onAction, } }
+  const attrs = { props: { story, isPaused }, on: { action: onAction } }
 
   const { type, template } = story
   if (template) {

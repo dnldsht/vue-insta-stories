@@ -17,10 +17,10 @@ export default defineComponent({
       margin: "auto"
     }
 
-    //this.$emit('action', 'pause')
+    // this.$emit('action', 'pause', false)
 
     const imageLoaded = () => {
-      //this.$emit('action', 'play')
+      // this.$emit('action', 'play')
     }
 
     const params = {
@@ -28,9 +28,9 @@ export default defineComponent({
       domProps: {
         src: this.story.url
       },
-      on: {
-        onLoad: imageLoaded
-      }
+      // on: {
+      //   load: imageLoaded
+      // }
     }
 
     return h('img', params)

@@ -67,16 +67,16 @@ export default defineComponent({
       return this.stories[this.currentIndex]
     },
   },
-  emits: ['onStoryStart', 'onStoryEnd', 'onAllStoriesEnd'],
+  emits: ['storyStart', 'storyEnd', 'allStoriesEnd'],
   methods: {
     storyStart() {
-      this.$emit('onStoryStart', this.currentIndex)
+      this.$emit('storyStart', this.currentIndex)
     },
     storyEnd() {
-      this.$emit('onStoryEnd', this.currentIndex)
+      this.$emit('storyEnd', this.currentIndex)
     },
     allStoriesEnd() {
-      this.$emit('onAllStoriesEnd', this.currentIndex)
+      this.$emit('allStoriesEnd', this.currentIndex)
     },
     incrementCount(timestamp: number) {
       if (!this.startTime)

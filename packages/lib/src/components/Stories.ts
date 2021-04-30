@@ -35,7 +35,7 @@ export default defineComponent({
       required: false,
     }
   },
-  emits: ['onStoryStart', 'onStoryEnd', 'onAllStoriesEnd', 'update:currentIndex', 'update:isPaused', 'onSeeMore'],
+  emits: ['storyStart', 'storyEnd', 'allStoriesEnd', 'update:currentIndex', 'update:isPaused', 'seeMore'],
   watch: {
     currentIndex(val) {
       this.index = val;
@@ -93,25 +93,27 @@ export default defineComponent({
       this.paused = !this.paused
     },
     pause() {
-      fadeOut(this.$refs.timeline.$el as HTMLElement)
-      fadeOut(this.$refs.header as HTMLElement)
+      fadeOut((this.$refs.timeline as any).$el as HTMLElement)
+      if (this.$refs.header)
+        fadeOut(this.$refs.header as HTMLElement)
     },
     play() {
-      fadeIn(this.$refs.timeline.$el as HTMLElement)
-      fadeIn(this.$refs.header as HTMLElement)
+      fadeIn((this.$refs.timeline as any).$el as HTMLElement)
+      if (this.$refs.header)
+        fadeIn(this.$refs.header as HTMLElement)
     },
     storyStart(index: number) {
-      this.$emit('onStoryStart', index)
+      this.$emit('storyStart', index)
       this.$emit('update:currentIndex', index)
     },
     storyEnd(index: number) {
       this.nextSlide()
-      this.$emit('onStoryEnd', index)
+      this.$emit('storyEnd', index)
     },
     allStoriesEnd() {
       if (this.loop) {
         this.index = 0;
-      } else this.$emit('onAllStoriesEnd')
+      } else this.$emit('allStoriesEnd')
     },
   },
 
@@ -126,9 +128,9 @@ export default defineComponent({
         isPaused: this.paused,
       },
       on: {
-        onStoryStart: this.storyStart,
-        onStoryEnd: this.storyEnd,
-        onAllStoriesEnd: this.allStoriesEnd,
+        storyStart: this.storyStart,
+        storyEnd: this.storyEnd,
+        allStoriesEnd: this.allStoriesEnd,
       }
     }
 
@@ -136,12 +138,15 @@ export default defineComponent({
     // story
     const onAction = (action: string, data?: any) => {
 
+
       switch (action) {
         case 'play':
-          this.play()
+          //this.paused = false
+          //this.play()
           break
         case 'pause':
-          this.pause()
+          //this.paused = true
+          //this.pause()
           break
         case 'duration':
           const duration = data as number
@@ -176,15 +181,15 @@ export default defineComponent({
     }
 
     const storiesEvents = {
-      onTouchstart: mouseDown,
-      onTouchend: mouseUp,
-      onMousedown: mouseDown,
-      onMouseup: mouseUp
+      touchstart: mouseDown,
+      touchend: mouseUp,
+      mousedown: mouseDown,
+      mouseup: mouseUp
     }
 
     const onSeeMore = () => {
       this.paused = true
-      this.$emit('onSeeMore', story)
+      this.$emit('seeMore', story)
     }
 
     const renderProps =
