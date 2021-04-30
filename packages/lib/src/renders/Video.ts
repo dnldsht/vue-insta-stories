@@ -1,5 +1,6 @@
 import { StoryOptions } from 'src/types'
-import { defineComponent, h } from 'vue-demi'
+import { defineComponent } from 'vue-demi'
+import h from "../utils/h-demi"
 
 export default defineComponent({
   props: {
@@ -58,6 +59,19 @@ export default defineComponent({
     const onPlaying = () => {
       this.$emit('action', 'play')
     }
-    return h('video', { src: this.story.url, ref: "vid", ...videoAttrs, style, onLoadeddata, onPlaying })
+
+    const params = {
+      style,
+      domProps: {
+        src: this.story.url,
+        ...videoAttrs
+      },
+      on: {
+        onLoadeddata, onPlaying
+      },
+      ref: "vid"
+    }
+
+    return h('video', params)
   }
 })

@@ -1,5 +1,6 @@
 import { StoryOptions } from 'src/types'
-import { defineComponent, h } from 'vue-demi'
+import { defineComponent } from 'vue-demi'
+import h from "../utils/h-demi"
 
 export default defineComponent({
   props: {
@@ -22,6 +23,16 @@ export default defineComponent({
       //this.$emit('action', 'play')
     }
 
-    return h('img', { src: this.story.url, style, onLoad: imageLoaded })
+    const params = {
+      style,
+      domProps: {
+        src: this.story.url
+      },
+      on: {
+        onLoad: imageLoaded
+      }
+    }
+
+    return h('img', params)
   }
 })

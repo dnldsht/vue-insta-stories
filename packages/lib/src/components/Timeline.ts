@@ -1,5 +1,6 @@
 import { StoryOptions } from 'src/types'
-import { defineComponent, h } from 'vue-demi'
+import { defineComponent, } from 'vue-demi'
+import h from "../utils/h-demi"
 import '../main.css'
 
 const Progress = defineComponent({
@@ -11,7 +12,7 @@ const Progress = defineComponent({
   },
   render() {
     const style = { width: `${this.progress}%` }
-    return h('div', { class: 'slice', }, h('div', { class: 'progress', style }))
+    return h('div', { class: 'slice', }, [h('div', { class: 'progress', style })])
   }
 })
 
@@ -66,16 +67,16 @@ export default defineComponent({
       return this.stories[this.currentIndex]
     },
   },
-  emits: ['storyStart', 'storyEnd', 'allStoriesEnd'],
+  emits: ['onStoryStart', 'onStoryEnd', 'onAllStoriesEnd'],
   methods: {
     storyStart() {
-      this.$emit('storyStart', this.currentIndex)
+      this.$emit('onStoryStart', this.currentIndex)
     },
     storyEnd() {
-      this.$emit('storyEnd', this.currentIndex)
+      this.$emit('onStoryEnd', this.currentIndex)
     },
     allStoriesEnd() {
-      this.$emit('allStoriesEnd', this.currentIndex)
+      this.$emit('onAllStoriesEnd', this.currentIndex)
     },
     incrementCount(timestamp: number) {
       if (!this.startTime)
@@ -96,10 +97,12 @@ export default defineComponent({
   render() {
     const current = this.currentIndex
     const count = this.count
-    return this.stories.map((_, i) => {
+    const elements = this.stories.map((_, i) => {
       const progress = i == current ? count : (i < current ? 100 : 0)
       const key = i
-      return h(Progress, { key, progress })
+      return h(Progress, { key, props: { progress } })
     })
+
+    return h('div', { class: 'timeline', ref: 'timeline' }, elements)
   }
 })

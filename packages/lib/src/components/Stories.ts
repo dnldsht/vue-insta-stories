@@ -1,4 +1,4 @@
-import { defineComponent, h } from 'vue-demi'
+import { defineComponent } from 'vue-demi'
 import render from '../renders'
 
 import Timeline from './Timeline'
@@ -6,6 +6,7 @@ import wrapWithSeeMore from './WithSeeMore'
 
 import { StoryOptions } from '../types';
 import { fadeOut, fadeIn, getX } from "../utils";
+import h from "../utils/h-demi"
 
 import '../main.css'
 
@@ -92,11 +93,11 @@ export default defineComponent({
       this.paused = !this.paused
     },
     pause() {
-      fadeOut(this.$refs.timeline as HTMLElement)
+      fadeOut(this.$refs.timeline.$el as HTMLElement)
       fadeOut(this.$refs.header as HTMLElement)
     },
     play() {
-      fadeIn(this.$refs.timeline as HTMLElement)
+      fadeIn(this.$refs.timeline.$el as HTMLElement)
       fadeIn(this.$refs.header as HTMLElement)
     },
     storyStart(index: number) {
@@ -115,16 +116,20 @@ export default defineComponent({
   },
 
   render() {
-    console.log("weeeeee")
     const story = this.items[this.index]
 
     const timelineProps = {
-      stories: this.items,
-      currentIndex: this.index,
-      isPaused: this.paused,
-      onStoryStart: this.storyStart,
-      onStoryEnd: this.storyEnd,
-      onAllStoriesEnd: this.allStoriesEnd,
+
+      props: {
+        stories: this.items,
+        currentIndex: this.index,
+        isPaused: this.paused,
+      },
+      on: {
+        onStoryStart: this.storyStart,
+        onStoryEnd: this.storyEnd,
+        onAllStoriesEnd: this.allStoriesEnd,
+      }
     }
 
 
@@ -188,8 +193,9 @@ export default defineComponent({
     const header = this.$slots.header
 
     const storyVnode = render(renderProps, this.$slots)
-    return h('div', { ref: 'stories', class: 'vue-insta-stories', ...storiesEvents }, [
-      h('div', { class: 'timeline', ref: 'timeline' }, h(Timeline, timelineProps)),
+    return h('div', { ref: 'stories', class: 'vue-insta-stories', on: storiesEvents }, [
+      h(Timeline, { ref: 'timeline', ...timelineProps }),
+      //h('div', { class: 'timeline', ref: 'timeline' }, [h(Timeline, timelineProps)]),
       header ? h('div', { class: 'header', ref: 'header' }, header()) : null,
       wrapWithSeeMore(storyVnode, story.seeMore, onSeeMore)
     ])
