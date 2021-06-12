@@ -1,7 +1,6 @@
 import { SeeMoreOptions } from 'src/types';
-import { defineComponent, VNode } from 'vue-demi'
-
-import h from '../utils/h-demi'
+import { defineComponent, VNode, isVue2 } from 'vue-demi'
+import h, { slot } from '../utils/h-demi'
 
 const WithSeeMore = defineComponent({
   name: "WithSeeMore",
@@ -71,7 +70,7 @@ const WithSeeMore = defineComponent({
     ])
 
     return h('div', { class: 'see-more-wrapper' }, [
-      this.$slots.default?.(),
+      slot(this.$slots.default),
       seeMore
     ])
   },
@@ -80,10 +79,10 @@ const WithSeeMore = defineComponent({
 const wrapWithSeeMore = (storyNode: VNode | VNode[], options?: SeeMoreOptions | boolean, action?: Function) => {
   if (!options) return storyNode
 
+  // wtf vue-2
+  const vnode = isVue2 ? [storyNode] : { default: () => storyNode }
   const label = options === true ? undefined : options.label
-  return h(WithSeeMore, { props: { label }, on: { action } }, {
-    default: () => storyNode
-  })
+  return h(WithSeeMore, { props: { label }, on: { action } }, vnode)
 }
 
 export default wrapWithSeeMore
