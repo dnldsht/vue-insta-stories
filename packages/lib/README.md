@@ -46,8 +46,8 @@ export default {
 
 ## Style
 ```scss
-/** full screen **/
-.vue-insta-stories-full {
+/** full screen on mobile & fixed size on desktop **/
+.ig-stories {
   position: absolute;
   height: 100vh;
   height: -webkit-fill-available;
@@ -55,11 +55,12 @@ export default {
   top: 0;
 }
 
-/** in page **/
-.vue-insta-stories-page {
- position: relative;
- height: 730px default;
- width: 420px default;
+@media (min-width: 768px) {
+  .ig-stories {
+    position: relative;
+    height: 730px;
+    width: 420px;
+  }
 }
 ```
 if you are using tailwind you can write 
