@@ -28,24 +28,28 @@
       </div>
     </div>
     <div class="md:(h-730px w-420px) flex justify-center items-center">
-      <Stories
-        @allStoriesEnd="showStories = false"
-        @seeMore="open"
-        v-if="showStories"
+      <pull-down
         class="absolute top-0 h-fill w-100vw md:(h-730px w-420px relative) shadow-lg"
-        :interval="3000"
-        :stories="stories"
-        :loop="true"
       >
-        <template #header><story-header /></template>
-        <template #intro>
-          <intro-slide class="flex-grow"></intro-slide>
-        </template>
-      </Stories>
+        <Stories
+          @allStoriesEnd="showStories = false"
+          @seeMore="open"
+          v-if="showStories"
+          class="absolute top-0 h-fill w-100vw md:(h-730px w-420px relative) shadow-lg"
+          :interval="3000"
+          :stories="stories"
+          :loop="true"
+        >
+          <template #header><story-header /></template>
+          <template #intro>
+            <intro-slide class="flex-grow"></intro-slide>
+          </template>
+        </Stories>
+      </pull-down>
 
-      <button v-else @click="showStories = true" class="underline">
+      <!-- <button v-else @click="showStories = true" class="underline">
         Start over!
-      </button>
+      </button> -->
     </div>
   </div>
 </template>
@@ -56,55 +60,58 @@ import { Stories } from "vue-insta-stories";
 import IntroSlide from "./components/IntroSlide.vue";
 import StoryHeader from "./components/StoryHeader.vue";
 import { defineComponent, isVue2 } from "vue-demi";
+import PullDown from "./components/PullDown.vue";
 
 export default defineComponent({
   components: {
     Stories,
     IntroSlide,
-    StoryHeader
+    StoryHeader,
+    PullDown,
+    PullDown,
   },
 
   data: () => ({
     showStories: true,
     options: {
       interval: 30000,
-      currentIndex: 0
+      currentIndex: 0,
     },
     currentIndex: 3,
     stories: [
       {
-        template: "intro"
+        template: "intro",
       },
       "https://picsum.photos/350/200/",
       {
         url:
           "https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4",
         type: "video",
-        seeMore: { url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" }
+        seeMore: { url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
       },
       "https://picsum.photos/400/201/",
       {
         url: "https://picsum.photos/350/202/",
         seeMore: {
           label: "Give us a star 🤍",
-          url: "https://github.com/UnevenSoftware/vue-insta-stories"
-        }
-      }
-    ]
+          url: "https://github.com/UnevenSoftware/vue-insta-stories",
+        },
+      },
+    ],
   }),
   watch: {
     currentIndex(val) {
       console.log("watchapp", val);
-    }
+    },
   },
   methods: {
     open(story) {
       const { url } = story.seeMore;
       window.open(url);
       console.log("Watch whateve", url);
-    }
+    },
   },
-  mounted() {}
+  mounted() {},
 });
 </script>
 <style scoped>
