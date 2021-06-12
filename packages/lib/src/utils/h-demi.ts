@@ -26,4 +26,10 @@ const h = (type: String | Object, options: Options & any = {}, chidren?: any) =>
   return hDemi(type, params, chidren)
 }
 
+const slot = (s, attrs?) => {
+  if (typeof s == 'function') return s(attrs)
+  return s
+}
+export { slot }
+
 export default h

@@ -1,7 +1,7 @@
 import { StoryOptions } from 'src/types'
 import { Slots } from 'vue-demi'
 
-import h from '../utils/h-demi'
+import h, { slot as slotDemi } from '../utils/h-demi'
 import Image from './Image'
 import Video from './Video'
 // export { Image }
@@ -32,8 +32,7 @@ const render = ({ story, isPaused, onAction }: RenderProps, $slots: Slots) => {
     const slot = $slots[template]
     if (!slot) throw new Error(`unable to find the template '${template}'`)
 
-    // todo check
-    return slot(attrs)
+    return slotDemi(slot, attrs)
   }
 
   return h(getRender(type), attrs)

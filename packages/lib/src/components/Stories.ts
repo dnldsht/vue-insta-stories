@@ -6,7 +6,7 @@ import wrapWithSeeMore from './WithSeeMore'
 
 import { StoryOptions } from '../types';
 import { fadeOut, fadeIn, getX } from "../utils";
-import h from "../utils/h-demi"
+import h, { slot } from "../utils/h-demi"
 
 import '../main.css'
 
@@ -201,7 +201,7 @@ export default defineComponent({
     return h('div', { ref: 'stories', class: 'vue-insta-stories', on: storiesEvents }, [
       h(Timeline, { ref: 'timeline', ...timelineProps }),
       //h('div', { class: 'timeline', ref: 'timeline' }, [h(Timeline, timelineProps)]),
-      header ? h('div', { class: 'header', ref: 'header' }, header()) : null,
+      header ? h('div', { class: 'header', ref: 'header' }, slot(header)) : null,
       wrapWithSeeMore(storyVnode, story.seeMore, onSeeMore)
     ])
   }
