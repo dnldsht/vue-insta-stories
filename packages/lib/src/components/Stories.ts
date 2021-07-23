@@ -31,7 +31,7 @@ export default defineComponent({
     },
     loop: {
       type: Boolean,
-      defualt: false,
+      default: false,
       required: false,
     }
   },
