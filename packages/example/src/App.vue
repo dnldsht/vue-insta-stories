@@ -47,9 +47,9 @@
           top-0
           h-fill
           w-100vw
-          md:(h-730px
-          w-420px
-          relative)
+          md:(h-730px)
+          md:(w-420px)
+          md:(relative)
           shadow-lg
         "
         :interval="3000"
