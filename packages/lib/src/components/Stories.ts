@@ -201,7 +201,7 @@ export default defineComponent({
     return h('div', { ref: 'stories', class: 'vue-insta-stories', on: storiesEvents }, [
       h(Timeline, { ref: 'timeline', ...timelineProps }),
       //h('div', { class: 'timeline', ref: 'timeline' }, [h(Timeline, timelineProps)]),
-      header ? h('div', { class: 'header', ref: 'header' }, slot(header)) : null,
+      header ? h('div', { class: 'header', ref: 'header' }, slot(header, { story })) : null,
       wrapWithSeeMore(storyVnode, story.seeMore, onSeeMore)
     ])
   }
