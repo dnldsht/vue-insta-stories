@@ -72,7 +72,7 @@ if you are using tailwind you can write
 ```vue
 <template>
   <Stories :stories="items">
-    <template #header="{story}" >
+    <template #header="{story}">
       <story-header :story="story" />
     </template>
   </Stories>
