@@ -25,6 +25,19 @@ Work in progress documentation can be found [here](https://github.com/UnevenSoft
 - Straight forward usage for images & videos
 - Header slot
 - Custom templates
+  
+## Contributing
+We are open to pull requests!
+  
+### How to test the lib  
+```bash
+yarn lib:watch # watch for changes on the lib package
+yarn dev # starts vue3 demo
+yarn dev:2 # starts vue2 demo
+  
+# check yarn link to test the new version in your project
+```
+
 
 ## Credits
 This project was inspired by @kayue [work](https://github.com/kayue/vue-story-example)
