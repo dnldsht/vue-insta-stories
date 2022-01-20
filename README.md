@@ -2,7 +2,7 @@
 
 <p align="center">
   Vue component for Instagram stories<br/>
-<a href="https://unevensoftware.github.io/vue-insta-stories" target="__blank"><b>Live demo<b></a>
+<a href="https://dnldsht.github.io/vue-insta-stories" target="__blank"><b>Live demo<b></a>
 </p>
 
 <br/>
@@ -14,7 +14,7 @@ yarn add vue-insta-stories
 ```
 
 ## Usage
-Work in progress documentation can be found [here](https://github.com/UnevenSoftware/vue-insta-stories/tree/main/packages/lib#readme)
+Work in progress documentation can be found [here](https://github.com/dnldsht/vue-insta-stories/tree/main/packages/lib#readme)
 
 ## Features
 - Works with vue 2/3
