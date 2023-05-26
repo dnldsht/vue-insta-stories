@@ -87,7 +87,7 @@ export default defineComponent({
       if (this.index > 0)
         this.index--;
       else if (this.loop)
-        this.index = this.stories.length;
+        this.index = this.stories.length - 1;
     },
     togglePause() {
       this.paused = !this.paused
