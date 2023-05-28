@@ -2,7 +2,7 @@
 
 <p align="center">
   Vue component for Instagram stories<br/>
-<a href="https://dnldsht.github.io/vue-insta-stories" target="__blank"><b>Live demo<b></a>
+<a href="https://vue-insta-stories.donld.me" target="__blank"><b>Live demo<b></a>
 </p>
 
 <br/>

@@ -1,16 +1,6 @@
 <template>
   <div
-    class="
-      container
-      py-20
-      flex flex-col
-      md:flex-row
-      justify-center
-      mx-auto
-      h-100vh
-      items-center
-      p-5
-    "
+    class="container py-20 flex flex-col md:flex-row justify-center mx-auto h-100vh items-center p-5"
   >
     <div class="flex flex-col justify-center mb-20 md:(mr-20 mb-0)">
       <a
@@ -21,9 +11,7 @@
       >
       <p class="mt-4">Instagram stories in your vue projects.</p>
 
-      <div class="bg-gray-200 p-3 mt-4 rounded-lg">
-        yarn add vue-insta-stories
-      </div>
+      <div class="bg-gray-200 p-3 mt-4 rounded-lg">yarn add vue-insta-stories</div>
 
       <a
         class="mt-4 underline"
@@ -33,7 +21,7 @@
       >
 
       <div class="mt-5">
-        Made with 🖤 by <a href="https://github.com/dnldsht">@dnldsht</a> &
+        Made with 🖤 by <a href="https://donld.me">@dnldsht</a> &
         <a href="https://github.com/gilnd">@gilnd</a>
       </div>
     </div>
@@ -42,16 +30,7 @@
         @allStoriesEnd="showStories = false"
         @seeMore="open"
         v-if="showStories"
-        class="
-          absolute
-          top-0
-          h-fill
-          w-100vw
-          md:(h-730px)
-          md:(w-420px)
-          md:(relative)
-          shadow-lg
-        "
+        class="absolute top-0 h-fill w-100vw md:(h-730px) md:(w-420px) md:(relative) shadow-lg"
         :interval="3000"
         :stories="stories"
         :loop="true"
@@ -65,9 +44,7 @@
         </template>
       </Stories>
 
-      <button v-else @click="showStories = true" class="underline">
-        Start over!
-      </button>
+      <button v-else @click="showStories = true" class="underline">Start over!</button>
     </div>
   </div>
 </template>
@@ -99,7 +76,8 @@ export default defineComponent({
       },
       "https://picsum.photos/350/200/",
       {
-        url: "https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4",
+        url:
+          "https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4",
         type: "video",
         seeMore: { url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
       },
@@ -107,11 +85,11 @@ export default defineComponent({
       {
         url: "https://picsum.photos/350/202/",
         header: {
-          label: "UnevenSoftware",
+          label: "dnldsht",
         },
         seeMore: {
           label: "Give us a star 🤍",
-          url: "https://github.com/UnevenSoftware/vue-insta-stories",
+          url: "https://github.com/dnldsht/vue-insta-stories",
         },
       },
     ],
