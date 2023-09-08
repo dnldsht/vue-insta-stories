@@ -10,5 +10,6 @@
     "lib:watch": "yarn workspace vue-insta-stories run build:watch",
     "lib": "yarn workspace vue-insta-stories",
     "example": "yarn workspace example"
-  }
+  },
+  "version": "0.0.1"
 }
