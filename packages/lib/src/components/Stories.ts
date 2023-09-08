@@ -111,9 +111,10 @@ export default defineComponent({
       this.$emit('storyEnd', index)
     },
     allStoriesEnd() {
+      this.$emit('allStoriesEnd')
       if (this.loop) {
         this.index = 0;
-      } else this.$emit('allStoriesEnd')
+      }
     },
   },
 
