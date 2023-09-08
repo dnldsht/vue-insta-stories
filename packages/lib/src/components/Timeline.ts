@@ -44,7 +44,6 @@ export default defineComponent({
       immediate: true,
       handler() {
         this.count = 0
-        this.storyStart()
         this.startTime = 0
         this.deltaPaused = 0
         cancelAnimationFrame(this.animFrameId)
@@ -70,16 +69,10 @@ export default defineComponent({
       return this.stories[this.currentIndex]
     },
   },
-  emits: ['storyStart', 'storyEnd', 'allStoriesEnd'],
+  emits: ['storyEnd'],
   methods: {
-    storyStart() {
-      this.$emit('storyStart', this.currentIndex)
-    },
     storyEnd() {
       this.$emit('storyEnd', this.currentIndex)
-    },
-    allStoriesEnd() {
-      this.$emit('allStoriesEnd', this.currentIndex)
     },
     incrementCount(timestamp: number) {
       if (!this.startTime)
@@ -91,8 +84,6 @@ export default defineComponent({
         this.animFrameId = requestAnimationFrame(this.incrementCount)
       else {
         this.storyEnd()
-        if (this.currentIndex == this.stories.length - 1)
-          this.allStoriesEnd()
         cancelAnimationFrame(this.animFrameId)
       }
     }

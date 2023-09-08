@@ -40,6 +40,21 @@ export default defineComponent({
     currentIndex(val) {
       this.index = val;
     },
+    index: {
+      immediate: true,
+      handler(current, prev) {
+        this.$emit('update:currentIndex', current)
+        if(prev !== undefined) {
+          this.$emit('storyEnd', prev)
+          if(prev === this.stories.length - 1 && current === 0) {
+            this.$emit('allStoriesEnd')
+            if(this.loop) this.index = 0
+            
+          }
+        }
+        this.$emit('storyStart', current)
+      },
+    },
     isPaused: {
       immediate: true,
       handler(val) {
@@ -86,8 +101,8 @@ export default defineComponent({
     previousSlide() {
       if (this.index > 0)
         this.index--;
-      else if (this.loop)
-        this.index = this.stories.length - 1;
+      // else if (this.loop)
+      //   this.index = this.stories.length - 1;
     },
     togglePause() {
       this.paused = !this.paused
@@ -102,19 +117,8 @@ export default defineComponent({
       if (this.$refs.header)
         fadeIn(this.$refs.header as HTMLElement)
     },
-    storyStart(index: number) {
-      this.$emit('storyStart', index)
-      this.$emit('update:currentIndex', index)
-    },
     storyEnd(index: number) {
       this.nextSlide()
-      this.$emit('storyEnd', index)
-    },
-    allStoriesEnd() {
-      this.$emit('allStoriesEnd')
-      if (this.loop) {
-        this.index = 0;
-      }
     },
   },
 
@@ -129,9 +133,7 @@ export default defineComponent({
         isPaused: this.paused,
       },
       on: {
-        storyStart: this.storyStart,
         storyEnd: this.storyEnd,
-        allStoriesEnd: this.allStoriesEnd,
       }
     }
 
