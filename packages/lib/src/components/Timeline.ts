@@ -40,13 +40,16 @@ export default defineComponent({
     animFrameId: -1,
   }),
   watch: {
-    currentIndex() {
-      this.count = 0
-      this.storyStart()
-      this.startTime = 0
-      this.deltaPaused = 0
-      cancelAnimationFrame(this.animFrameId)
-      this.animFrameId = requestAnimationFrame(this.incrementCount)
+    currentIndex:{
+      immediate: true,
+      handler() {
+        this.count = 0
+        this.storyStart()
+        this.startTime = 0
+        this.deltaPaused = 0
+        cancelAnimationFrame(this.animFrameId)
+        this.animFrameId = requestAnimationFrame(this.incrementCount)
+      },
     },
     isPaused: {
       immediate: true,
