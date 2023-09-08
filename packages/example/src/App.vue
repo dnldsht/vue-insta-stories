@@ -38,7 +38,7 @@
         :loop="true"
       >
         <template #header="{ story }">
-          <story-header :label="story.header ? story.header.label : 'uneven'" />
+          <story-header :label="story.header ? story.header.label : 'camillardi'" />
         </template>
 
         <template #intro="attrs">

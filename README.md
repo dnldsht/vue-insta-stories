@@ -1,9 +1,17 @@
 <h1 align="center">vue-insta-stories</h1>
-
 <p align="center">
   Vue component for Instagram stories<br/>
-<a href="https://vue-insta-stories.donld.me" target="__blank"><b>Live demo<b></a>
 </p>
+
+<p align="center">
+<a href="https://www.npmjs.com/package/vue-insta-stories" target="__blank"><img src="https://img.shields.io/npm/v/vue-insta-stories?color=2B90B6&label=" alt="NPM version"></a>
+<a href="https://www.npmjs.com/package/vue-insta-stories" target="__blank"><img alt="NPM Downloads" src="https://img.shields.io/npm/dm/vue-insta-stories?color=349dbe&label="></a>
+<a href="https://vue-insta-stories.donld.me" target="__blank"><img src="https://img.shields.io/static/v1?label=&message=Live%20demo&color=45b8cd" alt="Docs & Demos"></a>
+<br>
+<a href="https://github.com/dnldsht/vue-insta-stories" target="__blank"><img alt="GitHub stars" src="https://img.shields.io/github/stars/dnldsht/vue-insta-stories?style=social"></a>
+</p>
+
+
 
 <br/>
 <img height="600" src="https://i.imgur.com/gyX0XFw.png"/>

@@ -5,7 +5,7 @@
         h-8
         w-8
         rounded-1
-        bg-white
+        bg-rose-200
         text-xl
         flex
         justify-center
@@ -13,7 +13,7 @@
         shadow-sm
       "
     >
-      💎
+    🐇
     </div>
     <div class="font-bold text-white ml-2">{{ label }}</div>
   </div>
