@@ -1,7 +1,7 @@
 # Changelog
 
 
-## v0.9.5
+## v0.9.6
 
 [compare changes](https://github.com/UnevenSoftware/vue-insta-stories/compare/0.9.3...v0.9.4)
 
