@@ -27,7 +27,9 @@
     </div>
     <div class="md:(h-730px w-420px) flex justify-center items-center">
       <Stories
-        @allStoriesEnd="showStories = false"
+        @allStoriesEnd="allStoriesEnd"
+        @storyStart="storyStart"
+        @storyEnd="storyEnd"
         @seeMore="open"
         v-if="showStories"
         class="absolute top-0 h-fill w-100vw md:(h-730px) md:(w-420px) md:(relative) shadow-lg"
@@ -74,10 +76,10 @@ export default defineComponent({
       {
         template: "intro",
       },
-      "https://picsum.photos/350/200/",
+      "https://picsum.photos/420/730/",
       {
         url:
-          "https://file-examples-com.github.io/uploads/2017/04/file_example_MP4_480_1_5MG.mp4",
+          "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
         type: "video",
         seeMore: { url: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" },
       },
@@ -100,6 +102,16 @@ export default defineComponent({
     },
   },
   methods: {
+    storyStart(index) {
+      console.log("storyStart", index);
+    },
+    storyEnd(index) {
+      console.log("storyEnd", index);
+    },
+    allStoriesEnd() {
+      //this.showStories = false;
+      console.log("allStoriesEnd");
+    },
     open(story) {
       const { url } = story.seeMore;
       window.open(url);
