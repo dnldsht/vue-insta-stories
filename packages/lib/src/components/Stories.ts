@@ -35,23 +35,15 @@ export default defineComponent({
       required: false,
     }
   },
-  emits: ['storyStart', 'storyEnd', 'allStoriesEnd', 'update:currentIndex', 'update:isPaused', 'seeMore'],
+  emits: ['storyStart', 'storyEnd', 'allStoriesEnd', 'update:currentIndex', 'update:isPaused', 'seeMore', 'next', 'prev'],
   watch: {
     currentIndex(val) {
       this.index = val;
     },
     index: {
       immediate: true,
-      handler(current, prev) {
+      handler(current) {
         this.$emit('update:currentIndex', current)
-        if(prev !== undefined) {
-          this.$emit('storyEnd', prev)
-          if(prev === this.stories.length - 1 && current === 0) {
-            this.$emit('allStoriesEnd')
-            if(this.loop) this.index = 0
-            
-          }
-        }
         this.$emit('storyStart', current)
       },
     },
@@ -91,7 +83,8 @@ export default defineComponent({
   },
 
   methods: {
-    nextSlide() {
+    nextSlide(emit = true) {
+      emit && this.$emit('next')
       if (this.index < this.stories.length - 1) {
         this.index++;
       } else if (this.loop) {
@@ -99,10 +92,9 @@ export default defineComponent({
       }
     },
     previousSlide() {
+      this.$emit('prev')
       if (this.index > 0)
         this.index--;
-      // else if (this.loop)
-      //   this.index = this.stories.length - 1;
     },
     togglePause() {
       this.paused = !this.paused
@@ -118,7 +110,13 @@ export default defineComponent({
         fadeIn(this.$refs.header as HTMLElement)
     },
     storyEnd(index: number) {
-      this.nextSlide()
+      this.$emit('storyEnd', index)
+      this.nextSlide(false)
+
+      if(index === this.stories.length - 1) {
+        if(this.loop) this.index = 0
+        else this.$emit('allStoriesEnd')
+      }
     },
   },
 

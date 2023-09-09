@@ -23,17 +23,22 @@ export default {
 ```
 
 ### Props
-| Property          | Type             | Default  | Description                                                        |
-|-------------------|------------------|----------|--------------------------------------------------------------------|
-| `stories`         | [String/Object]  | required | An array of image urls or array of story objects (more info below) |
-| `interval`        | Number           | 2000     | Story duration in milliseconds                                     |
-| `isPaused`        | Boolean          | false    | Toggle the playing state                                           |
-| `loop`            | Boolean          | false    | Loop through stories                                               |
-| `currentIndex`    | Number           | 0        | Set the current story index                                        |
-| **Events**      |                    |          |                                                                    |
-| `storyStart`    | Function(Number)   | -        | Callback when a story starts                                       |
-| `storyEnd`      | Function(Number)   | -        | Callback when a story ends                                         |
-| `allStoriesEnd` | Function()         | -        | Callback when all stories in the array have ended                  |
+| Property              | Type                  | Default  | Description                                                        |
+|-----------------------|-----------------------|----------|--------------------------------------------------------------------|
+| `stories`             | Array<String\|Object> | required | An array of image urls or array of story objects (more info below) |
+| `interval`            | Number                | 2000     | Story duration in milliseconds                                     |
+| `isPaused`            | Boolean               | false    | Toggle the playing state                                           |
+| `loop`                | Boolean               | false    | Loop through stories                                               |
+| `currentIndex`        | Number                | 0        | Set the current story index                                        |
+| **Events**            |                       |          |                                                                    |
+| `storyStart`          | Function(index)       | -        | Callback when a story starts                                       |
+| `storyEnd`            | Function(index)       | -        | Callback when a story ends                                         |
+| `allStoriesEnd`       | Function()            | -        | Callback when all stories have ended (not emitted if loop=true)    |
+| `seeMore`             | Function(story)       | -        | Callback when user have pressed See more                           |
+| `prev`                | Function()            | -        | Callback when user press prev                                      |
+| `next`                | Function()            | -        | Callback when user press next                                      |
+| `update:currentIndex` | Function(index)       | -        |                                                                    |
+| `update:isPaused`     | Function(paused)      | -        |                                                                    |
 
 ### Story Object
 | Property   | Description                                                          |
