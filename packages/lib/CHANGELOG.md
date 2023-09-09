@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.9.8
+
+[compare changes](https://github.com/UnevenSoftware/vue-insta-stories/compare/v0.9.7...v0.9.8)
+
+### 💅 Refactors
+
+- Events ([f0402cc](https://github.com/UnevenSoftware/vue-insta-stories/commit/f0402cc))
+
+### ❤️ Contributors
+
+- Dnldsht ([@dnldsht](http://github.com/dnldsht))
+
 ## v0.9.7
 
 [compare changes](https://github.com/UnevenSoftware/vue-insta-stories/compare/v0.9.6...v0.9.7)
