@@ -134,11 +134,9 @@
     "@vue/shared" "3.2.4"
 
 "@vue/composition-api@^1.0.0-rc.6":
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.1.1.tgz#e0ed16d8449ad717329167b9f4b0d2005515df4b"
-  integrity sha512-LduQZICuBuwij541PgLsuxY/W/TA51xkSy2mBrRgnwQuqvb9YHdFguc0TwWTCAFq/EiwHWqsCb/SDYMkf01tCA==
-  dependencies:
-    tslib "^2.3.0"
+  version "1.7.2"
+  resolved "https://registry.yarnpkg.com/@vue/composition-api/-/composition-api-1.7.2.tgz#0b656f3ec39fefc2cf40aaa8c12426bcfeae1b44"
+  integrity sha512-M8jm9J/laYrYT02665HkZ5l2fWTK4dcVg3BsDHm/pfz+MjDYwX+9FUaZyGwEyXEDonQYRCo0H7aLgdklcIELjw==
 
 "@vue/reactivity@3.2.4":
   version "3.2.4"
@@ -1314,11 +1312,6 @@ ts-interface-checker@^0.1.9:
   version "0.1.13"
   resolved "https://registry.yarnpkg.com/ts-interface-checker/-/ts-interface-checker-0.1.13.tgz#784fd3d679722bc103b1b4b8030bcddb5db2a699"
   integrity sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==
-
-tslib@^2.3.0:
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.3.1.tgz#e8a335add5ceae51aa261d32a490158ef042ef01"
-  integrity sha512-77EbyPPpMz+FRFRuAFlWMtmgUWGe9UOG2Z25NqCwiIjRhOf5iKGuzSe5P2w1laq+FkRy4p+PCuVkJSGkzTEKVw==
 
 typescript@^4.2.3:
   version "4.3.5"
